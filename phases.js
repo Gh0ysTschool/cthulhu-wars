@@ -38,7 +38,7 @@ let interuptStage = (inphase,instage,inpi) => {
         G.stage = rstage
         G.turn.pi = rpi
         G.forceRerender()
-        if (G.phase == 'action' && !G.phases.action.options().length) endTurn()
+        if (G.phase == 'action' && !G.phases.action.stages.start.options().length) endTurn()
         else if (G.stage && !G.phases[G.phase].stages[G.stage].options().length) endStage()
         else if (G.phases[G.phase].options && !G.phases[G.phase].options().length) endStage()
     }
@@ -88,11 +88,11 @@ let endPhase = p => {
     if (G.phases[G.phase].lim) 
         G.turn.lim--
     G.phase = (G.phases[G.phase].next) ? G.phases[G.phase].next : 'action';
-    G.stage = ''
+    G.stage = G.phases[G.phase].start||''
     autoMountGates()
     checkbooks()
     G.forceRerender();
-    if (G.phase == 'action' && !G.phases.action.options().length) endTurn()
+    if (G.phase == 'action' && !G.phases.action.stages.start.options().length) endTurn()
 }
 let addStage=(s,stage,phase,prev)=>{
     G.phases[phase].stages[s] = stage
@@ -179,11 +179,15 @@ let phases = {
             }
         },
         action : {
-            start : '',
-            options : f => Object.keys(G.phases).filter( p => (G.phases[p].unlim || (G.phases[p].lim && G.turn.lim) && (!G.phases[p].req || G.phases[p].req()))),
-            moves : {
-                choose : (np,c) => {if (np == '') setPhase(c)},
-                done : (np,c) => { G.player.power = 0; endTurn(); }
+            start : 'start',
+            stages : {
+                start : {
+                    options : f => Object.keys(G.phases).filter( p => (G.phases[p].unlim || (G.phases[p].lim && G.turn.lim) && (!G.phases[p].req || G.phases[p].req()))),
+                    moves : {
+                        choose : (np,c) => {if (np == 'start') setPhase(c)},
+                        done : (np,c) => { G.player.power = 0; endTurn(); }
+                    }
+                }
             }
         },
         move : {
