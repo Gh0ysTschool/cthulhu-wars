@@ -257,20 +257,30 @@ let phases = {
                     },
                 },
                 enemy : {
-                    next : 'assignpkills',
+                    next : 'roll',
                     options : f => G.players.filter( p => p.faction.name != G.player.faction.name && p.units.filter( u => u.place == G.choices.fight.place).length ),
                     moves : {
                         choose : (np, c) => {
                             if (np == 'enemy' && G.players.filter( p => p.faction.name != G.player.faction.name && p.units.filter( u => u.place == G.choices.fight.place).length ) /*&& !(places[c.place].tokens.includes('iceage') && player.power < 2)*/) {
                                 G.choices.fight.enemy = c
-                                calcDamage(G.player)
-                                calcDamage(G.choices.fight.enemy)
                                 G.player.power--
                                 endPhase()
                             }
                         }
                     },
                 }, 
+                roll : {
+                    next : 'assignpkills',
+                    init : f => { 
+                        calcDamage(G.player)
+                        calcDamage(G.choices.fight.enemy)
+                        endPhase()
+                    },
+                    options : f => [],
+                    moves : {
+                        choose : (np,c) => {}
+                    }
+                },
                 assignpkills : {
                     next : 'assignpretreats',
                     options : f => G.player.units.filter( u => u.place == G.choices.fight.place ),
