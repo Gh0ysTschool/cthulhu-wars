@@ -64,7 +64,7 @@
     $: G.units = G.players.reduce((acc,cur)=>[...acc,...cur.units],[])
     G.phase = 'action'
     let actions = []
-    G.stage = ''
+    G.stage = 'start'
     G.ritualtracks = {
         3:[5,6,7,8,9,10],
         4:[5,6,7,7,8,8,9,10],
@@ -74,7 +74,8 @@
     $: G.ritualcost = G.ritualtracks[G.players.length][G.rituals]
     let choose = x => {}
     $: actions = (G.stage == '') ? G.phases[G.phase].options() : G.phases[G.phase].stages[G.stage].options()
-    $: G.choose = (G.stage == '') ? G.phases[G.phase].moves.choose : G.phases[G.phase].stages[G.stage].moves.choose
+    let noop = (np,c) => {}
+    $: G.choose = ((G.stage == '') ? G.phases[G.phase].moves.choose : G.phases[G.phase].stages[G.stage].moves.choose)||noop
     let click = action => f => G.choose(G.stage,action)
 </script>
 <style lang="stylus">
