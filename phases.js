@@ -20,7 +20,7 @@ let calcDamage = (p) => {
     p.temp.pains = r.filter( e => e < 5 && e > 2).length
 }
 let roll = ( dice ) => Math.floor((Math.random() * 6) + 1)
-let endTurn  = t => { 
+let endTurn = t => { 
     G.phase = (G.players.filter( p => p.power ).length) ? 'action' : 'gather';
     G.turn.lim=1; 
     G.turn.pi++;
@@ -116,41 +116,44 @@ let phases = {
 
     phases : {
         gather : {
-            start : '',
-            options : f => {
-                G.players.map( 
-                    p => p.power += lostGates().length 
-                    + p.units.filter(
-                        u => (u.type == 'cult' || u.gatherer) 
-                        && Object.keys(G.places).includes(u.place)
-                    ).length 
-                    + 2 
-                    * p.units.filter( 
-                        u => u.gate
-                    ).length 
-                    + G.units.filter( 
-                        u => u.place == p.faction.name 
-                    ).map( 
-                        u => u.place = ''
-                    ).length
-                );
-                let highest = {power:0}
-                G.players.map( p => highest = (p.power > highest.power) ? p : highest)
-                G.turn.pi = G.players.indexOf(highest)
-                G.players.map( p => p.power = (p.power < highest.power/2) ? highest.power/2 : p.power)
-
-                return ['keep turn order','reverse turn order'];
-            },
-            moves : {
-                choose : (np,c) => {
-                    let p = G.players[G.turn.pi]
-                    if( ['keep turn order','reverse turn order'].includes(c) ) {
-                        if (c == 'reverse turn order')
-                            G.players = G.players.reverse()
-                        G.players.map( p => p.ritual = 1)
-                        setPhase('doom')
+            start : 'start',
+            stages : {
+                start : {
+                    init : f => {
+                        G.players.map( 
+                            p => p.power += lostGates().length 
+                            + p.units.filter(
+                                u => (u.type == 'cult' || u.gatherer) 
+                                && Object.keys(G.places).includes(u.place)
+                            ).length 
+                            + 2 
+                            * p.units.filter( 
+                                u => u.gate
+                            ).length 
+                            + G.units.filter( 
+                                u => u.place == p.faction.name 
+                            ).map( 
+                                u => u.place = ''
+                            ).length
+                        );
+                        let highest = {power:0}
+                        G.players.map( p => highest = (p.power > highest.power) ? p : highest)
+                        G.turn.pi = G.players.indexOf(highest)
+                        G.players.map( p => p.power = (p.power < highest.power/2) ? highest.power/2 : p.power);
+                    },
+                    options : f => ['keep turn order','reverse turn order'],
+                    moves : {
+                        choose : (np,c) => {
+                            let p = G.players[G.turn.pi]
+                            if( ['keep turn order','reverse turn order'].includes(c) ) {
+                                if (c == 'reverse turn order')
+                                    G.players = G.players.reverse()
+                                G.players.map( p => p.ritual = 1)
+                                setPhase('doom')
+                            }
+                        }
                     }
-                }
+                },
             }
         },
         doom : {
