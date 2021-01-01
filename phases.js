@@ -21,7 +21,8 @@ let calcDamage = (p) => {
 }
 let roll = ( dice ) => Math.floor((Math.random() * 6) + 1)
 let endTurn = t => { 
-    G.phase = (G.players.filter( p => p.power ).length) ? 'action' : 'gather';
+    if (!G.players.filter( p => p.power ).length) 
+        phases.setPhase('gather')
     G.turn.lim=1; 
     G.turn.pi++;
     while(G.phase == 'action' && !G.players[G.turn.pi%G.players.length].power) 
@@ -78,7 +79,7 @@ let setStage = s => {G.stage = s; phaseInit(); G.forceRerender();}
 let endStage = s => {autoMountGates(); if (G.phases[G.phase].stages[G.stage].next) {setStage(G.phases[G.phase].stages[G.stage].next)} else {endPhase();}}
 let setPhase = p => {
     G.phase = p
-    G.stage = G.phases[G.phase].start
+    G.stage = G.phases[G.phase].start||''
     autoMountGates()
     checkbooks()
     phaseInit()
@@ -92,6 +93,7 @@ let endPhase = p => {
     G.stage = G.phases[G.phase].start||''
     autoMountGates()
     checkbooks()
+    phaseInit()
     G.forceRerender();
     if (G.phase == 'action' && !G.phases.action.stages.start.options().length) endTurn()
 }
@@ -186,7 +188,7 @@ let phases = {
             start : 'start',
             stages : {
                 start : {
-                    options : f => Object.keys(G.phases).filter( p => (G.phases[p].unlim || (G.phases[p].lim && G.turn.lim) && (!G.phases[p].req || G.phases[p].req()))),
+                    options : f => Object.keys(G.phases).filter( p => (G.phases[p].unlim || (G.phases[p].lim && G.turn.lim)) && (!G.phases[p].req || G.phases[p].req())),
                     moves : {
                         choose : (np,c) => {if (np == 'start') setPhase(c)},
                         done : (np,c) => { G.player.power = 0; endTurn(); }
@@ -398,6 +400,7 @@ let phases = {
         open : {
             lim,
             start : 'place',
+            req : f => G.player.power > 2 && G.player.units.filter( u => u.type == 'cult' && !G.player.units.filter( u => u.gate ).map( u => u.place ).includes(u.place)),
             stages : {
                 place : {
                     options : f => Object.keys(G.places).filter( p => !G.places[p].gate && G.player.units.filter( u => u.type == 'cult' ).map( u => u.place ).includes(p) ),
