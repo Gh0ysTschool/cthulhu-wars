@@ -18,7 +18,7 @@ game end
     30+ points
     ritual track
 books
-    bg
+    x 2020-12-28 bg
         x 2020-12-23 sac3cult
         x 2020-12-23 avatar
         x 2020-12-24 ghroth
@@ -28,9 +28,39 @@ books
         x 2020-12-23 frenzy
         x 2020-12-23 thousand
         x 2020-12-23 redsign
-cthulhu allows first player
+    x 2021-01-01 gc
+        x 2020-12-28 submerge
+        x 2020-12-28 emerge
+        x 2020-12-28 dreams
+        x 2020-12-30 devolve
+        x 2020-12-31 devour
+        x 2020-12-31 yhanthlei
+        x 2020-12-31 regenerate
+        x 2020-12-31 absorb
+        x 2020-12-31 immortal
+    cc
+        x 2021-01-01 harbinger
+        x 2021-01-01 pay4
+        x 2021-01-01 pay6
+        x 2021-01-01 pay10        
+        x 2021-01-08 unique:thousandforms (0) roll. negotiate pay power, else you gain that much power
+        x 2021-01-08 postcombat&ondeath:harbinger on enemy goo death, recieve half goo's power cost or two elder signs
+        x 2021-01-08 prebattle:s&d hunting horrors can be moved to the combat
+        x 2021-01-08 onretreat:madness choose retreat locations
+        x 2021-01-08 postbattle:emissary only enemy goo can kill narl
+        x 2021-01-08 prebattle:invisibility polyp remove 1 unit each from a battle
+        x 2021-01-08 prebattle:abduct kill own nightgaunst kill 1 unit each from a battle
+        x 2021-01-08 onmovecalc:flight can move two spaces
+x 2021-01-08 phases reset single use spellbooks
+cthulhu always first player
 move book phses to access G passed down to factions
 expose addphase and addstage to factions
 invoke phase.init / phase.stage.init on start of phase / stage
 move init logic out of options initializer functions for legacy phases
 x 2020-12-24 init spellbook on aquire
+cc invisibility: set unit.place to 'invisible'
+display players by their faction name in choices like you display units by their tyoe
+color choosable units by their faction regardless of turn
+show unit's locations along with type in choices
+ritualcost treated as track rather than number (in doom phase)
+units should provide their place as seleciton if the stage contains 'place'
