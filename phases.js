@@ -123,6 +123,10 @@ let phases = {
             stages : {
                 start : {
                     init : f => {
+                        Object.keys(G.choices).map( k => {
+                            if (G.choices[k].once !== undefined)
+                                G.choices[k].once = 1
+                        })
                         G.players.map( 
                             p => p.power += lostGates().length 
                             + p.units.filter(
