@@ -218,7 +218,7 @@ let phases = {
                     },
                     place : {
                         next : 'unit',
-                        options : f => G.places[G.choices.move.unit.place].adjacent,
+                        options : f => (G.choices.move.unit.speed == 2 ) ? Array.from( new Set(G.places[G.choices.move.unit.place].adjacent.reduce( (acc,p) => acc.concat(G.places[p].adjacent), []) ) ) : G.places[G.choices.move.unit.place].adjacent,
                         moves : {
                             choose : (np, c) => {
                                 if (np == 'place' && G.places[G.choices.move.unit.place].adjacent.includes(c)) {
@@ -285,7 +285,7 @@ let phases = {
                 },
                 assignpkills : {
                     next : 'assignpretreats',
-                    options : f => G.player.units.filter( u => u.place == G.choices.fight.place ),
+                    options : f => G.player.units.filter( u => u.place == G.choices.fight.place && (!u?.invulnerable ) ),
                     moves : {
                         choose : (np, c) => {
                             if ( G.player.units.filter( u => u.place == G.choices.fight.place ).map( u => u.id ).includes( c.id ) ) {
