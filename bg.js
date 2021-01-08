@@ -253,10 +253,10 @@ let ghroth = () => {
                     choose : (np, c) => {
                         if ( np == 'unit' && G.player.units.filter( u => u.type == 'cult' && Object.keys(G.places).includes(u.place) ).includes(c)) {
                             c.place = ''
-                            G.ghroth.choices.offers[G.turn.pi%G.players.length]--
-                            if(!G.ghroth.choices.offers[G.turn.pi%G.players.length]) G.turn.pi++
+                            G.choices.ghroth.offers[G.turn.pi%G.players.length]--
+                            if(!G.choices.ghroth.offers[G.turn.pi%G.players.length]) G.turn.pi++
                             G.forceRerender()
-                            if(!G.ghroth.choices.offers.reduce((acc,cur)=>acc+cur,0)) phs.endStage()
+                            if(!G.choices.ghroth.offers.reduce((acc,cur)=>acc+cur,0)) phs.endStage()
                         }
                     },
                 }
@@ -269,9 +269,9 @@ let ghroth = () => {
                     choose : (np, c) => {
                         if ( np == 'unit' && G.player.units.filter( u => u.type == 'cult' && Object.keys(G.places).includes(u.place) ).includes(c)) {
                             c.place = ''
-                            G.ghroth.choices.offers--
+                            G.choices.ghroth.offers--
                             G.forceRerender()
-                            if(!G.ghroth.choices.offers) phs.endStage()
+                            if(!G.choices.ghroth.offers) phs.endStage()
                         }
                     },
                 }
