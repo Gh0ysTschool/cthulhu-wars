@@ -223,7 +223,7 @@ let ghroth = () => {
             G.choices.ghroth.offers = Array(G.players.length).fill(0)
             G.turn.pi++
         },
-        req : f => G.player.power > 1,
+        req : f => G.player.faction.name == 'bg' && G.player.power > 1,
         start : 'negotiate',
         stages: {               
             negotiate : {
