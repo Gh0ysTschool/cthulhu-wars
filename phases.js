@@ -107,6 +107,7 @@ let addStage=(s,stage,phase,prev)=>{
 let addPhase=(p,phase)=>{G.phases[p]=phase}
 let phases = {
     addPhase,
+    roll,
     addStage,
     interuptStage,
     endPhase,
