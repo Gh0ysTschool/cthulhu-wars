@@ -231,7 +231,7 @@ let ghroth = () => {
                 options : f => Array(G.choices.ghroth.roll+1).fill(0).map( (l,i) => i).filter( l => l < G.player.units.filter( u => u.type == 'cult' && Object.keys(G.places).includes(u.place) ).length ),
                 moves : {
                     choose : (np, c) => {
-                        if ( np == 'negotiate' && Array(G.choices.ghroth.roll+1).fill(0).map( (l,i) => i).filter( l => l < G.player.units.filter( u => u.type == 'cult' && Object.keys(G.places).includes(u.place) ).length ).includes(c) ) {
+                        if ( np == 'negotiate' && Array(G.choices.ghroth.roll+1).fill(0).map( (l,i) => i).filter( l => l <= G.player.units.filter( u => u.type == 'cult' && Object.keys(G.places).includes(u.place) ).length ).includes(c) ) {
                             G.choices.ghroth.offers[G.turn.pi%G.players.length] = c
                             G.turn.pi++
                             if ( G.players[G.turn.pi].faction.name=='bg') {
