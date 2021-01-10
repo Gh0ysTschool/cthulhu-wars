@@ -80,11 +80,26 @@ let faction = (g,p) => {
         }
     })
     
-    // unique:named movehaster (1) to an area with enemy cult. turn off screamdead. free action
-    // unlim
-    // req: hastur on board && enemy cultists exist && !player.temp.turn.named && player.power > 0
-    // choose : player.temp.turn.named until end of turn, hastur.place = c, phs.endstage()
-    // options : Array.from( new Set(players.filter( p => p.faction.name != 'ys' ).units.filter( u => u.type == 'cult' ).map( u => u.place ) ) )
+    let named = () => phs.addPhase('He Who Must Not Be Named',{
+        unlim,
+        req : f => G.player.faction.name == 'ys' && G.places[G.player.units.find( u => u.type = 'Hastur' ).place] && !G.player.temp.turn.named && !G.player.temp.turn.scream && player.power > 0,
+        start : 'place',
+        stages: {               
+            place : {
+                options : Array.from( new Set(G.players.filter( p => p.faction.name != 'ys' ).units.filter( u => u.type == 'cult' ).map( u => u.place ) ) ),
+                moves : {
+                    choose : (np, c) => {
+                        if ( ( np == 'place' || np == 'named' ) && Array.from( new Set(G.players.filter( p => p.faction.name != 'ys' ).units.filter( u => u.type == 'cult' ).map( u => u.place ) ) ).includes(c)) {
+                            G.player.temp.turn.named = 1
+                            G.player.units.find( u => u.type = 'Hastur' ).place = c
+                            G.player.power--
+                            phs.endPhase()
+                        }
+                    }
+                }
+            }
+        }
+    })
 
     // unique:shriek (1) move any byakhee to one area
     // req : G.player.units.find( u => u.type == 'Byakhee' && G.places[u.place])
