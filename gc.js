@@ -227,7 +227,7 @@ let yhanthlei = () => {
     }
     yhstage.next = G.phases.gather.start||''
     G.phases.gather.start = 'yhanthlei'
-    G.phases.gather.stages['yhanthlei'] = dyhstage
+    G.phases.gather.stages['yhanthlei'] = yhstage
 }
 let regenerate = () => phs.addStage( 'regenerate',{
     init : f=>{
