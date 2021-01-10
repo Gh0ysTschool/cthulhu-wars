@@ -26,7 +26,7 @@
         align-content center
         justify-content center
         color black
-        font-family arial
+        font-family 'Montserrat',arial
     .gate
         &:before
             content:''

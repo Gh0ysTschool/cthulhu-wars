@@ -98,7 +98,7 @@
     .actions
         position absolute
         height 4vh
-        font-family arial
+        font-family 'Montserrat',arial
         margin 0.5%
         padding 0.1em
         text-align center
