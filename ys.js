@@ -50,15 +50,6 @@ let faction = (g,p) => {
             ...[0,1,2,3].map( f=> G.unit("Bya'khee",p,'',2,f=>G.units.filter( u => u.place == G.choices.combat.place && u.type == "Bya'khee").length+1,1)),
         ]
     }
-    
-    // yellow
-    // desecrate = () => {}
-    // gift3power = () => {}
-    // named = () => {}
-    // shriek = () => {}
-    // scream = () => {}
-    // zingaya = () => {}
-    // vengence = () => {}
 
     let gift3doom = () => phs.addPhase('gift 3 doom',{
         lim,
@@ -253,9 +244,13 @@ let faction = (g,p) => {
         })
     }
 
-    // gatherpower:feast 
-    // +1 per unit with desecration token in same place
-    
+    let feast = () => phs.addStage('feast',{
+        init : f => {
+            G.players.find( p => p.faction.name == 'ys' ).power += G.places.filter( p => G.places[p].glyphs.includes('desecration') && G.units.find( u => u.place == p) ).length
+            phs.endStage()
+        }
+    },'gather','start')
+
     // death|capture:yourcultist gain 1 power
     // let cultist
     // at the start of each action phase
