@@ -173,7 +173,6 @@ let faction = (g,p) => {
         })
     }
 
-    
     let desecrate = () => {
         let roll
         phs.addPhase('desecrate',{
@@ -208,11 +207,51 @@ let faction = (g,p) => {
             }
         })
     }
-
-    // unique:scream (1) move king and undead. turn off named. free actions
-    // unlim
-    // req : !G.player.named && !G.player.scream && king.place && poewr > 0
-    // stages : unit(s), place
+   
+    let scream = () => {
+        G.choices.scream = {place:null}
+        phs.addPhase('scream',{
+            unlim,
+            req : f => G.player.faction.name == 'ys' && G.places[G.player.units.find( u => u.type = 'King in Yellow' ).place] && !G.player.temp.turn.named && !G.player.temp.turn.scream && player.power > 0,
+            start : 'place',
+            stages: {               
+                place : {
+                    next : 'unit',
+                    options : f=>G.places[ G.player.units.find( u => u.type == 'King in Yellow' ).place ].adjacent,
+                    moves : {
+                        choose : (np, c) => {
+                            if ( ( np == 'place' || np == 'scream' ) && G.places[ G.player.units.find( u => u.type == 'King in Yellow' ).place ].adjacent.includes(c) ) {
+                                G.choices.scream.place = c
+                                G.player.temp.turn.scream = 1
+                                G.player.power--
+                                phs.endPhase()
+                            }
+                        }
+                    }
+                },
+                unit : {
+                    options : f=> G.player.units.filter( u => u.type == 'Undead' && u.place == G.player.units.find( u => u.type = 'King in Yellow' ).place ),
+                    moves : {
+                        choose : (np, c) => {
+                            if ( ( np == 'place' || np == 'scream' ) && G.player.units.filter( u => u.type == 'Undead' && u.place == G.player.units.find( u => u.type = 'King in Yellow' ).place ).includes(c) ) {
+                                c.place = G.choices.scream.place
+                                if ( G.player.units.filter( u => u.type == 'Undead' && u.place == G.player.units.find( u => u.type = 'King in Yellow' ).place ).length )
+                                    G.forceRerender()
+                                else {
+                                    G.player.units.find( u => u.type = 'King in Yellow' ).place = G.choices.scream.place
+                                    phs.endStage()
+                                }
+                            }
+                        },
+                        done : f => {
+                            G.player.units.find( u => u.type = 'King in Yellow' ).place = G.choices.scream.place
+                            phs.endStage()
+                        }
+                    }
+                }
+            }
+        })
+    }
 
     // gatherpower:feast 
     // +1 per unit with desecration token in same place
