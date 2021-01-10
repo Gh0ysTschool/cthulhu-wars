@@ -16,11 +16,12 @@ let stealableUnitsIn = (p) => {
 }
 let calcDamage = (p) => {
     let r = roll( p.units.filter( u => u.place == choices.fight.place ).map( u => typeof u.combat == 'function' ? u.combat() : u.combat ) )
-    p.temp.kills = r.filter( e => e > 4 ).length
-    p.temp.pains = r.filter( e => e < 5 && e > 2).length
+    p.temp.phase.kills = r.filter( e => e > 4 ).length
+    p.temp.phase.pains = r.filter( e => e < 5 && e > 2).length
 }
 let roll = ( dice ) => Math.floor((Math.random() * 6) + 1)
 let endTurn = t => { 
+    G.player.temp.turn = {}
     if (!G.players.filter( p => p.power ).length) 
         phases.setPhase('gather')
     G.turn.lim=1; 
@@ -86,7 +87,7 @@ let setPhase = p => {
     G.forceRerender()
 }
 let endPhase = p => {
-    G.players.map( p => p.temp = {} )
+    G.players.map( p => p.temp.phase = {} )
     if (G.phases[G.phase].lim) 
         G.turn.lim--
     G.phase = (G.phases[G.phase].next) ? G.phases[G.phase].next : 'action';
@@ -295,10 +296,10 @@ let phases = {
                         choose : (np, c) => {
                             if ( G.player.units.filter( u => u.place == G.choices.fight.place ).map( u => u.id ).includes( c.id ) ) {
                                 c.place = ''
-                                G.player.temp.kills--
+                                G.player.temp.phase.kills--
                                 G.forceRerender()
                             }
-                            if ( !G.player.temp.kills || !G.player.units.filter( u => u.place == G.choices.fight.place ).length ) 
+                            if ( !G.player.temp.phase.kills || !G.player.units.filter( u => u.place == G.choices.fight.place ).length ) 
                                 endStage()
                         }
                     }
@@ -322,10 +323,10 @@ let phases = {
                         choose : (np, c) => {
                             if ( G.places[G.choices.fight.unit.place].adjacent.filter( p => !G.choices.fight.enemy.units.map( u => u.place ).includes(p)).includes( c ) ) {
                                 G.choices.fight.unit.place = c
-                                G.player.temp.pains--
+                                G.player.temp.phase.pains--
                                 G.forceRerender()
                             }
-                            if ( !G.player.temp.pains || !G.player.units.filter( u => u.place == G.choices.fight.place ).length ) 
+                            if ( !G.player.temp.phase.pains || !G.player.units.filter( u => u.place == G.choices.fight.place ).length ) 
                                 endStage()
                             else
                                 setStage('assignpretreats')
@@ -339,7 +340,7 @@ let phases = {
                         choose : (np, c) => {
                             if ( G.choices.fight.enemy.units.filter( u => u.place == G.choices.fight.place ).map( u => u.id ).includes( c.id ) ) {
                                 c.place = ''
-                                G.choices.fight.enemy.temp.kills--
+                                G.choices.fight.enemy.temp.phase.kills--
                                 G.forceRerender()
                             }
                             if ( !G.choices.fight.enemy.kills || !G.choices.fight.enemy.units.filter( u => u.place == G.choices.fight.place ).length ) 
@@ -365,7 +366,7 @@ let phases = {
                         choose : (np, c) => {
                             if ( G.places[choices.fight.unit.place].adjacent.filter( p => !player.units.map( u => u.place ).includes(p)).includes( c ) ) {
                                 G.choices.fight.unit.place = c
-                                G.choices.fight.enemy.temp.pains--
+                                G.choices.fight.enemy.temp.phase.pains--
                                 G.forceRerender()
                             }
                             if ( !G.choices.fight.enemy.pains || !G.choices.fight.enemy.units.filter( u => u.place == G.choices.fight.place ).length ) {

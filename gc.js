@@ -16,8 +16,8 @@ let faction = (g,p) => {
             
     let bookreqs = [
         {'1st doom + sign':f=>G.phase=='doom' },
-        {'kill/devour enemy':f=> G.choices.fight.enemy?.temp.kills+G.choices.fight.enemy?.temp.devour == 1 || G.choices.fight.enemy?.temp.kills+G.choices.fight.enemy?.temp.devour == 3  },
-        {'kill/devour 2 enemies':f=> G.choices.fight.enemy?.temp.kills+G.choices.fight.enemy?.temp.devour == 2 || G.choices.fight.enemy?.temp.kills+G.choices.fight.enemy?.temp.devour == 3 },
+        {'kill/devour enemy':f=> G.choices.fight.enemy?.temp.phase.kills+G.choices.fight.enemy?.temp.phase.devour == 1 || G.choices.fight.enemy?.temp.phase.kills+G.choices.fight.enemy?.temp.phase.devour == 3  },
+        {'kill/devour 2 enemies':f=> G.choices.fight.enemy?.temp.phase.kills+G.choices.fight.enemy?.temp.phase.devour == 2 || G.choices.fight.enemy?.temp.phase.kills+G.choices.fight.enemy?.temp.phase.devour == 3 },
         {'3/4 Ocean Gates':f=> G.player.units.filter( u => u.gate && oceans.includes( u.place )).length > 2 || Object.values(G.places).filter( p => p.ocean && p.gate ).length > 3 },
         {'Awaken Cthulhu':f=> G.choices.awaken.unit?.type=='Great Cthulhu'},
         {'doom + 5 books + sign':f=> G.phase == 'doom' && G.player.books.length == 5}
@@ -231,7 +231,7 @@ let yhanthlei = () => {
 }
 let regenerate = () => phs.addStage( 'regenerate',{
     init : f=>{
-        G.players.find( p => p.faction.name=='gc').units.filter( u => u.type == 'Starspawn' && u.place == G.choices.fight.place).map( f => (G.players.find( p => p.faction.name=='gc').temp.kills) ? G.players.find( p => p.faction.name=='gc').temp.kills-- : G.players.find( p => p.faction.name=='gc').temp.pains--)
+        G.players.find( p => p.faction.name=='gc').units.filter( u => u.type == 'Starspawn' && u.place == G.choices.fight.place).map( f => (G.players.find( p => p.faction.name=='gc').temp.phase.kills) ? G.players.find( p => p.faction.name=='gc').temp.phase.kills-- : G.players.find( p => p.faction.name=='gc').temp.phase.pains--)
         phs.endStage()
     },
     options : f=>[],

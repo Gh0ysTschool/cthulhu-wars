@@ -132,10 +132,10 @@ let madness = () => {
             choose : (np, c) => {
                 if ( G.places[G.choices.fight.unit.place].adjacent.filter( p => !G.choices.fight.enemy.units.map( u => u.place ).includes(p)).includes( c ) ) {
                     G.choices.fight.unit.place = c
-                    G.choices.fight.temp.pains--
+                    G.choices.fight.temp.phase.pains--
                     G.forceRerender()
                 }
-                if ( !G.choices.fight.player.temp.pains || !G.choices.fight.player.units.filter( u => u.place == G.choices.fight.place ).length )  {
+                if ( !G.choices.fight.player.temp.phase.pains || !G.choices.fight.player.units.filter( u => u.place == G.choices.fight.place ).length )  {
                     phs.returnStage()
                     phs.endStage()
                 } else{
@@ -155,7 +155,7 @@ let madness = () => {
             choose : (np, c) => {
                 if ( G.places[choices.fight.unit.place].adjacent.filter( p => !G.choices.fight.player.units.map( u => u.place ).includes(p)).includes( c ) ) {
                     G.choices.fight.unit.place = c
-                    G.choices.fight.enemy.temp.pains--
+                    G.choices.fight.enemy.temp.phase.pains--
                     G.forceRerender()
                 }
                 if ( !G.choices.fight.enemy.pains || !G.choices.fight.enemy.units.filter( u => u.place == G.choices.fight.place ).length ) {
