@@ -51,7 +51,18 @@ books
         x 2021-01-08 prebattle:invisibility polyp remove 1 unit each from a battle
         x 2021-01-08 prebattle:abduct kill own nightgaunst kill 1 unit each from a battle
         x 2021-01-08 onmovecalc:flight can move two spaces
+    ys
+        x 2021-01-09 unique:gift 3 doom (once)
+    desecrate
+    named
+    shriek
+    scream
+    zingaya
+    vengence
+    feast
+x 2021-01-09 scaffold ys abilities
 x 2021-01-08 phases reset single use spellbooks
+seperate player.temp catagories for stage, phase, turn, game, duration, etc
 cthulhu always first player
 move book phses to access G passed down to factions
 expose addphase and addstage to factions
