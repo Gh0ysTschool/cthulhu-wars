@@ -173,7 +173,7 @@ let faction = (g,p) => {
             stages: {               
                 roll : {
                     init : f=> {
-                        G.player.power-=2
+                        G.player.power-= (2 - ( G.player.books.includes("The Third Eye") && G.places[ G.player.units.find( u => u.type == 'Hastur' ).place ] ) )
                         roll = phs.roll(1)
                         if (phs.roll(1) >= G.player.units.filter( u => u.place == G.player.units.find( u => u.type == 'King in Yellow' ).place ).length ) {
                             G.places[G.player.units.find( u => u.type == 'King in Yellow' ).place].glyphs.push('desecration')
@@ -265,9 +265,15 @@ let faction = (g,p) => {
         G.phases.action.start = 'passion'
         G.phases.action.stages['passion'] = pastage
     }
-    // desecrate:thirdeye if hastur then gain 1 power and eldersign
-    // desecrat.addStage( after 'success' ) 
-    // if hastur, G.player.power++, G.player.signs++
+
+    let thirdeye = () => {
+        phs.addStage('thirdeye',{
+            init : f => {
+                G.player.signs += G.places.includes( G.player.units.find( u => u.type == 'Hastur' ).place )
+                phs.endStage()
+            }
+        },'desecrate','success')
+    }
 
     // assigncombat:hastur decides assignments
     // fight.addStage( before assignekills && before assignpkills )
