@@ -173,13 +173,41 @@ let faction = (g,p) => {
         })
     }
 
-    // unique:zingaya (1) undead in same area turn enemy cult into undead
-    // req : G.player.power > 0 && G.player.units.find( u => u.type == 'cult' && u.place == '' ) && G.player.units.find( u => u.type=='Undead' && G.units.find( uu => uu.type =='cult' && uu.owner.faction.name != 'ys' && uu.place == u.place ) )
     
-    // unique:desecrate (2) if king roll less than pieces put token more than pieces put piece cost less than 2
-    // roll
-    // success -> place.glyphs.push(desecrationtoken)
-    // fail -> unit ( cost <= 2 && place == '' )
+    let desecrate = () => {
+        let roll
+        phs.addPhase('desecrate',{
+            lim,
+            req : f => G.player.faction.name == 'ys' && G.player.units.find( u => u.type == 'King in Yellow' && G.places[u.place] ) && !G.places[G.player.units.find( u => u.type == 'King in Yellow' && G.places[u.place] ).place].glyphs.includes('desecration') && player.power > 1,
+            start : 'roll',
+            stages: {               
+                roll : {
+                    init : f=> {
+                        G.player.power-=2
+                        roll = phs.roll(1)
+                        if (phs.roll(1) >= G.player.units.filter( u => u.place == G.player.units.find( u => u.type == 'King in Yellow' ).place ).length ) {
+                            G.places[G.player.units.find( u => u.type == 'King in Yellow' ).place].glyphs.push('desecration')
+                            phs.endStage()
+                        } else {
+                            phs.setStage('unit')
+                        }
+                    },
+                },              
+                unit : {
+                    options : f=> G.player.units.filter( u => u.owner.faction.name != 'ys' && u.cost <= 2 && u.place == '' ),
+                    moves : {
+                        choose : (np, c) => {
+                            if ( ( np == 'unit' || np == 'desecrate' ) && G.player.units.filter( u => u.owner.faction.name != 'ys' && u.cost <= 2 && u.place == '' ).includes(c) ) {
+                                c.place = G.player.units.find( u => u.type = 'King in Yellow' )
+                                phs.endStage()
+                            }
+                        },
+                        done : f=>phs.endStage()
+                    }
+                }
+            }
+        })
+    }
 
     // unique:scream (1) move king and undead. turn off named. free actions
     // unlim
