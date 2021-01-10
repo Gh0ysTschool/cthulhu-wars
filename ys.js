@@ -251,13 +251,20 @@ let faction = (g,p) => {
         }
     },'gather','start')
 
-    // death|capture:yourcultist gain 1 power
-    // let cultist
-    // at the start of each action phase
-    // if cultists on board less than cultist
-    //    power += culsists - cultistsonboard
-    //    culstis = culstistsonboard
-
+    let passion = () => {
+        let cultists = G.player.units.filter( u => u.type == 'cult' && G.places[u.place] ).length
+        let pastage = {
+            init : f=>{
+                if ( G.players.find( p => p.faction.name == 'ys' ).units.filter( u => u.type == 'cult' && G.places[u.place] ).length < cultists )
+                    G.players.find( p => p.faction.name == 'ys' ).power += cultists - G.players.find( p => p.faction.name == 'ys' ).units.filter( u => u.type == 'cult' && G.places[u.place] ).length
+                cultists = G.players.find( p => p.faction.name == 'ys' ).units.filter( u => u.type == 'cult' && G.places[u.place] ).length
+                phs.endStage()
+            },
+        }
+        pastage.next = G.phases.action.start||''
+        G.phases.action.start = 'passion'
+        G.phases.action.stages['passion'] = pastage
+    }
     // desecrate:thirdeye if hastur then gain 1 power and eldersign
     // desecrat.addStage( after 'success' ) 
     // if hastur, G.player.power++, G.player.signs++
