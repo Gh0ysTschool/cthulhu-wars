@@ -80,13 +80,13 @@ let faction = (g,p) => {
         }
     })
     
-    let named = () => phs.addPhase('He Who Must Not Be Named',{
+    let named = () => phs.addPhase('named',{
         unlim,
         req : f => G.player.faction.name == 'ys' && G.places[G.player.units.find( u => u.type = 'Hastur' ).place] && !G.player.temp.turn.named && !G.player.temp.turn.scream && player.power > 0,
         start : 'place',
         stages: {               
             place : {
-                options : Array.from( new Set(G.players.filter( p => p.faction.name != 'ys' ).units.filter( u => u.type == 'cult' ).map( u => u.place ) ) ),
+                options : f=>Array.from( new Set(G.players.filter( p => p.faction.name != 'ys' ).units.filter( u => u.type == 'cult' ).map( u => u.place ) ) ),
                 moves : {
                     choose : (np, c) => {
                         if ( ( np == 'place' || np == 'named' ) && Array.from( new Set(G.players.filter( p => p.faction.name != 'ys' ).units.filter( u => u.type == 'cult' ).map( u => u.place ) ) ).includes(c)) {
@@ -101,12 +101,42 @@ let faction = (g,p) => {
         }
     })
 
-    // unique:shriek (1) move any byakhee to one area
-    // req : G.player.units.find( u => u.type == 'Byakhee' && G.places[u.place])
-    // stages : place, unit
-    // options : f=>G.places, f=> G.player.units.filter( u => u.type == 'Byakhee' && G.places[u.place] && u.place != G.choices.shriek.place )
-    // choose : G.choices.shriek.place = c;G.player.power--, c.place = G.choices.shriek.place; G.forceRerender()
-    // done : no, phs.endStage()
+    let shriek = () => {
+        G.choices.shriek = {place:null}
+        phs.addPhase('shriek',{
+            lim,
+            req : f => G.player.faction.name == 'ys' && G.player.units.find( u => u.type == 'Byakhee' && G.places[u.place]) && player.power > 0,
+            start : 'place',
+            stages: {               
+                place : {
+                    next : 'unit',
+                    options : f=>G.places,
+                    moves : {
+                        choose : (np, c) => {
+                            if ( ( np == 'place' || np == 'shriek' ) && G.places.includes(c) ) {
+                                G.choices.shriek.place = c
+                                G.player.power--
+                                phs.endPhase()
+                            }
+                        }
+                    }
+                },              
+                unit : {
+                    options : f=> G.player.units.filter( u => u.type == 'Byakhee' && G.places[u.place] && u.place != G.choices.shriek.place ),
+                    moves : {
+                        choose : (np, c) => {
+                            if ( ( np == 'place' || np == 'named' ) && G.player.units.filter( u => u.type == 'Byakhee' && G.places[u.place] && u.place != G.choices.shriek.place ).includes(c) ) {
+                                c.place = G.choices.shriek.place
+                                G.forceRerender()
+                            }
+                        },
+                        done : f => phs.endStage()
+                    }
+                }
+            }
+        })
+    }
+
     
     // unique:zingaya (1) undead in same area turn enemy cult into undead
     // req : G.player.power > 0 && G.player.units.find( u => u.type == 'cult' && u.place == '' ) && G.player.units.find( u => u.type=='Undead' && G.units.find( uu => uu.type =='cult' && uu.owner.faction.name != 'ys' && uu.place == u.place ) )
