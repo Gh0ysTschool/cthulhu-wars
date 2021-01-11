@@ -4,8 +4,8 @@ x 2020-12-21 awaken action phase
 x 2020-12-21 display unsummoned units (make them selectable) under player info pane
 x 2020-12-21 expand player info blocks into a full info pane
 x 2020-12-22 account for and return captured cultists
-addphase
-addstage
+x 2021-01-10 addphase
+x 2021-01-10 addstage
 document the structure of a phase / stage
 x 2020-12-24 bg-sac stage of awaken phase
 player.signs, [], pop on reveal
@@ -53,23 +53,24 @@ books
         x 2021-01-08 onmovecalc:flight can move two spaces
     ys
         x 2021-01-09 unique:gift 3 doom (once)
-    desecrate
-    named
-    shriek
-    scream
-    zingaya
-    vengence
-    feast
+    x 2021-01-10 desecrate
+    x 2021-01-10 named
+    x 2021-01-10 shriek
+    x 2021-01-10 scream
+    x 2021-01-10 zingaya
+    x 2021-01-10 vengence
+    x 2021-01-10 passion
+    x 2021-01-10 feast
 x 2021-01-09 scaffold ys abilities
 x 2021-01-08 phases reset single use spellbooks
-seperate player.temp catagories for stage, phase, turn, game, duration, etc
+x 2021-01-10 seperate player.temp catagories for stage, phase, turn, game, duration, etc
 cthulhu always first player
 move book phses to access G passed down to factions
 expose addphase and addstage to factions
-invoke phase.init / phase.stage.init on start of phase / stage
-move init logic out of options initializer functions for legacy phases
+x 2021-01-10 invoke phase.init / phase.stage.init on start of phase / stage
+x 2021-01-10 move init logic out of options initializer functions for legacy phases
 x 2020-12-24 init spellbook on aquire
-cc invisibility: set unit.place to 'invisible'
+x 2021-01-10 cc invisibility: set unit.place to 'invisible'
 display players by their faction name in choices like you display units by their tyoe
 color choosable units by their faction regardless of turn
 show unit's locations along with type in choices
