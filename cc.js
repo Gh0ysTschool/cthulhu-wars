@@ -119,10 +119,6 @@ let seekanddestroy = () => phs.addStage('seek and destroy',{
 },'fight','enemy')
 
 let madness = () => {
-// nextstage = to chooseretreats.nextstage
-// switch to cc, interupts with choose retreats
-// returntage && endstage
-    // next : phs.phases.fight.stages.enemy.next,
     madphase = {
         init : f => {
             phs.interuptStage('fight','placeeretreats',G.players.indexOf(G.players.find( p => p.faction.name == 'cc' ) ))
