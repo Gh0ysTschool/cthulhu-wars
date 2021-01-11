@@ -275,13 +275,47 @@ let faction = (g,p) => {
         },'desecrate','success')
     }
 
-    // assigncombat:hastur decides assignments
-    // fight.addStage( before assignekills && before assignpkills )
-    //   take control by branching to different kill assignment stage, so as hand it back properly
-    //     on hand back -> set stage as assign(e/p)kills, return, then endStage 
-    //       -- or -- 
-    //     return, endStage(), if stage includes assign & kills, endStage() again
-
+    let vengence = () => {
+        if ( [G.choices.fight.enemy,G.choices.fight.player].find( p => p.faction.name == 'ys' ) && G.units.find( u => u.type == 'Hastur').place == G.choices.fight.place )
+        let interupted
+        phs.phases.fight.assignekills.init = {
+            init : f => {
+                interupted = [G.choices.fight.enemy,G.choices.fight.player].find( p => p.faction.name == 'ys' ) && G.units.find( u => u.type == 'Hastur').place == G.choices.fight.place
+                if ( interupted )
+                    phs.interuptStage('fight','assignekills',G.players.indexOf(G.players.find( p => p.faction.name == 'ys' ) ))
+            },
+        }
+        phs.addStage('veng-e',{
+            init : f => {
+                if ( interupted ) {
+                    interupted = false
+                    phs.returnStage()
+                    phs.endStage()
+                }
+                else
+                    phs.endStage()
+            }
+        },'fight','assignekills')
+        phs.phases.fight.assignpkills.init = {
+            init : f => {
+                interupted = [G.choices.fight.enemy,G.choices.fight.player].find( p => p.faction.name == 'ys' ) && G.units.find( u => u.type == 'Hastur').place == G.choices.fight.place
+                if ( interupted )
+                    phs.interuptStage('fight','assignpkills',G.players.indexOf(G.players.find( p => p.faction.name == 'ys' ) ))
+            },
+        }
+        phs.addStage('veng-p',{
+            init : f => {
+                if ( interupted ) {
+                    interupted = false
+                    phs.returnStage()
+                    phs.endStage()
+                }
+                else
+                    phs.endStage()
+            }
+        },'fight','assignpkills')
+    }
+    
     let faction = {bookinit,books,bookreqs,goo,mons,color,start,name,units,addUnit,initUnits}
     return faction
 }
