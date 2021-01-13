@@ -298,6 +298,7 @@ let phases = {
                         choose : (np, c) => {
                             if ( G.player.units.filter( u => u.place == G.choices.fight.place ).map( u => u.id ).includes( c.id ) ) {
                                 c.place = ''
+                                c.gate = 0
                                 G.player.temp.phase.kills--
                                 G.forceRerender()
                             }
@@ -342,6 +343,7 @@ let phases = {
                         choose : (np, c) => {
                             if ( G.choices.fight.enemy.units.filter( u => u.place == G.choices.fight.place ).map( u => u.id ).includes( c.id ) ) {
                                 c.place = ''
+                                c.gate = 0
                                 G.choices.fight.enemy.temp.phase.kills--
                                 G.forceRerender()
                             }
@@ -386,12 +388,13 @@ let phases = {
         hire : {
             lim,
             start : 'place',
+            req : f => G.player.units.find( u => u.type == 'cult' && u.place == '' ),
             stages : {
                 place : {
-                    options : f => Object.keys(G.places).filter( p => G.player.units.map( u => u.places ).includes(p) ),
+                    options : f => Array.from( new Set( G.player.units.map( u => u.place ) ) ),
                     moves : {
                         choose : (np, c) => {
-                            if (np == 'place' && G.player.units.map( u => u.places ).includes(c) ) {
+                            if (np == 'place' && G.player.units.map( u => u.place ).includes(c) ) {
                                 G.choices.hire.place = c
                                 let u = G.player.units.find( u => u.place == '' && u.type == 'cult')
                                 if (!u) setPhase('action')
@@ -513,6 +516,7 @@ let phases = {
                         choose : (np, c) => {
                             if (np == 'place' && stealableUnitsIn(c).length ) {
                                 G.choices.steal.place = c
+                                G.choices.steal.gate = 0
                                 endStage()
                             }
                         }
