@@ -285,7 +285,7 @@ let thirdeye = () => {
             G.player.signs += G.places.includes( G.player.units.find( u => u.type == 'Hastur' ).place )
             phs.endStage()
         }
-    },'desecrate','success')
+    },'desecrate','roll')
 }
 
 let vengence = () => {
