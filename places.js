@@ -12,7 +12,7 @@ const
     southamerica = place('southamerica',['northpacific','southpacific','northatlantic','southatlantic','northamerica']),
     westafrica = place('westafrica',['eastafrica','southatlantic','northatlantic','arabia','indianocean']),
     indianocean = place('indianocean',['northpacific','southasia','arabia','eastafrica','westafrica','antarctica','southatlantic','southpacific'],true),
-    southpacific = place('southpacific',['australia','indianocean','northpacific','antarctica','southamerica','southpatlantic'],true),
+    southpacific = place('southpacific',['australia','indianocean','northpacific','antarctica','southamerica','southatlantic'],true),
     southatlantic = place('southatlantic',['southpacific','southamerica','northatlantic','antarctica','eastafrica','westafrica'],true),
     eastafrica = place('eastafrica',['southatlantic','westafrica','arabia','indianocean']),
     australia = place('australia',['indianocean','southpacific']),
