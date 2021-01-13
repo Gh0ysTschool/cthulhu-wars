@@ -144,7 +144,7 @@ let zingaya = () => {
     G.choices.zingaya = {place:null}
     phs.addPhase('shriek',{
         lim,
-        req : f => G.player.faction.name == 'ys' && G.player.units.find( u => u.type == 'Undead' && u.place == '' ) && G.player.units.find( u => u.type == 'Undead' && G.places[u.place] && G.units.find( uu => uu.owner.faction.name != 'ys' && uu.type == 'cult' && uu.place == u.place) ) && player.power > 0,
+        req : f => G.player.faction.name == 'ys' && G.player.units.find( u => u.type == 'Undead' && u.place == '' ) && G.player.units.find( u => u.type == 'Undead' && G.places[u.place] && G.units.find( uu => uu.owner.faction.name != 'ys' && uu.type == 'cult' && uu.place == u.place) ) && G.player.power > 0,
         start : 'place',
         stages: {               
             place : {
