@@ -412,7 +412,7 @@ let phases = {
         open : {
             lim,
             start : 'place',
-            req : f => G.player.power > 2 && G.player.units.filter( u => u.type == 'cult' && !G.player.units.filter( u => u.gate ).map( u => u.place ).includes(u.place)),
+            req : f => G.player.power > 2 && Object.keys(G.places).find( p => !G.units.find( u => u.gate == p) && G.player.units.find( u => u.place == p && u.type == 'cult' ) ),
             stages : {
                 place : {
                     options : f => Object.keys(G.places).filter( p => !G.places[p].gate && G.player.units.filter( u => u.type == 'cult' ).map( u => u.place ).includes(p) ),
