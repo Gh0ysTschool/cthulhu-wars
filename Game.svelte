@@ -129,8 +129,10 @@
                 +each('actions as action')
                     +if('G.stage.includes("unit")')
                         li(on:click='{click(action)}') {action.type}
-                        +else
-                            li(on:click='{click(action)}') {action}
+                        +elseif('G.stage.includes("player") || G.stage.includes("enemy") || G.stage.includes("faction")')
+                            li(on:click='{click(action)}') {action.faction.name}
+                            +else
+                                li(on:click='{click(action)}') {action}
                 +if('G.phases[G.phase].stages && G.phases[G.phase].stages[G.stage].moves.done')
                     li(on:click='{G.phases[G.phase].stages[G.stage].moves.done}') done
                     +elseif('G.phases[G.phase].moves && G.phases[G.phase].moves.done')
