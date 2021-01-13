@@ -229,7 +229,7 @@ let phases = {
                         options : f => (G.choices.move.unit.speed == 2 ) ? Array.from( new Set(G.places[G.choices.move.unit.place].adjacent.reduce( (acc,p) => acc.concat(G.places[p].adjacent), []) ) ) : G.places[G.choices.move.unit.place].adjacent,
                         moves : {
                             choose : (np, c) => {
-                                if (np == 'place' && G.places[G.choices.move.unit.place].adjacent.includes(c)) {
+                                if (np == 'place' && ((G.choices.move.unit.speed == 2 ) ? Array.from( new Set(G.places[G.choices.move.unit.place].adjacent.reduce( (acc,p) => acc.concat(G.places[p].adjacent), []) ) ) : G.places[G.choices.move.unit.place].adjacent).includes(c)) {
                                     G.choices.move.place = c
                                     G.choices.move.unit.gate = 0
                                     G.choices.move.unit.place = c
