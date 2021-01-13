@@ -46,7 +46,7 @@
                 width 90%
                 border-bottom 0.1em solid
                 margin 0.2em
-        &:hover
+        &:hover, &:active
             height 90vh
             .details
                 height 100%

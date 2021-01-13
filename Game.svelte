@@ -114,7 +114,7 @@
         color #ababab
         background #323232
         transition height 0.5s
-        &:hover
+        &:hover, &:active
             height: 90vh
 
         
