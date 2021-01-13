@@ -108,7 +108,7 @@ let shriek = () => {
     G.choices.shriek = {place:null}
     phs.addPhase('shriek',{
         lim,
-        req : f => G.player.faction.name == 'ys' && G.player.units.find( u => u.type == 'Byakhee' && G.places[u.place]) && player.power > 0,
+        req : f => G.player.faction.name == 'ys' && G.player.units.find( u => u.type == 'Byakhee' && G.places[u.place]) && G.player.power > 0,
         start : 'place',
         stages: {               
             place : {
