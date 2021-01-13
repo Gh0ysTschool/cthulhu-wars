@@ -144,7 +144,7 @@ let phases = {
                                 u => u.place = ''
                             ).length
                         );
-                        let highest = {power:0}
+                        let highest = G.player
                         G.players.map( p => highest = (p.power > highest.power) ? p : highest)
                         G.turn.pi = G.players.indexOf(highest)
                         G.players.map( p => p.power = (p.power < highest.power/2) ? highest.power/2 : p.power);
@@ -154,8 +154,10 @@ let phases = {
                         choose : (np,c) => {
                             let p = G.players[G.turn.pi]
                             if( ['keep turn order','reverse turn order'].includes(c) ) {
-                                if (c == 'reverse turn order')
+                                if (c == 'reverse turn order') {
                                     G.players = G.players.reverse()
+                                    G.turn.pi = G.players.indexOf(p)
+                                }
                                 G.players.map( p => p.ritual = 1)
                                 setPhase('doom')
                             }

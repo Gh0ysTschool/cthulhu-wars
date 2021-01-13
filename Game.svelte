@@ -59,7 +59,7 @@
         p.power = 8
         p.faction.initUnits(p)
     })
-    G.turn = {lim:1,pi:0}
+    G.turn = {lim:1,pi:G.players.indexOf(G.players.find( p => p.faction.name == 'gc'))||0}
     $: G.player = G.players[G.turn.pi%G.players.length]
     $: G.units = G.players.reduce((acc,cur)=>[...acc,...cur.units],[])
     G.phase = 'action'
