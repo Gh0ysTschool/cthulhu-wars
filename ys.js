@@ -80,26 +80,29 @@ let gift3doom = () => phs.addPhase('gift 3 doom',{
     }
 })
 
-let named = () => phs.addPhase('named',{
-    unlim,
-    req : f => G.player.faction.name == 'ys' && G.places[G.player.units.find( u => u.type = 'Hastur' ).place] && !G.player.temp.turn.named && !G.player.temp.turn.scream && player.power > 0,
-    start : 'place',
-    stages: {               
-        place : {
-            options : f=>Array.from( new Set(G.players.filter( p => p.faction.name != 'ys' ).units.filter( u => u.type == 'cult' ).map( u => u.place ) ) ),
-            moves : {
-                choose : (np, c) => {
-                    if ( ( np == 'place' || np == 'named' ) && Array.from( new Set(G.players.filter( p => p.faction.name != 'ys' ).units.filter( u => u.type == 'cult' ).map( u => u.place ) ) ).includes(c)) {
-                        G.player.temp.turn.named = 1
-                        G.player.units.find( u => u.type = 'Hastur' ).place = c
-                        G.player.power--
-                        phs.endPhase()
+let named = () => {
+    G.player.temp.turn.named = 1
+    phs.addPhase('named',{
+        unlim,
+        req : f => G.player.faction.name == 'ys' && G.places[G.player.units.find( u => u.type = 'Hastur' ).place] && !G.player.temp.turn.named && !G.player.temp.turn.scream && G.player.power > 0,
+        start : 'place',
+        stages: {               
+            place : {
+                options : f=>Array.from( new Set(G.players.filter( p => p.faction.name != 'ys' ).units.filter( u => u.type == 'cult' ).map( u => u.place ) ) ),
+                moves : {
+                    choose : (np, c) => {
+                        if ( ( np == 'place' || np == 'named' ) && Array.from( new Set(G.players.filter( p => p.faction.name != 'ys' ).units.filter( u => u.type == 'cult' ).map( u => u.place ) ) ).includes(c)) {
+                            G.player.temp.turn.named = 1
+                            G.player.units.find( u => u.type = 'Hastur' ).place = c
+                            G.player.power--
+                            phs.endPhase()
+                        }
                     }
                 }
             }
         }
-    }
-})
+    })
+}
 
 let shriek = () => {
     G.choices.shriek = {place:null}
@@ -209,6 +212,7 @@ let desecrate = () => {
 }
 
 let scream = () => {
+    G.player.temp.turn.scream = 1
     G.choices.scream = {place:null}
     phs.addPhase('scream',{
         unlim,
