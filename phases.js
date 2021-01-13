@@ -504,6 +504,7 @@ let phases = {
         steal : {
             lim,
             start : 'place',
+            req : f => Object.keys(G.places).filter( p =>stealableUnitsIn(p).length ).length,
             stages : {
                 place : {
                     next : 'unit',
