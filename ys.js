@@ -276,7 +276,6 @@ let faction = (g,p) => {
     }
 
     let vengence = () => {
-        if ( [G.choices.fight.enemy,G.choices.fight.player].find( p => p.faction.name == 'ys' ) && G.units.find( u => u.type == 'Hastur').place == G.choices.fight.place )
         let interupted
         phs.phases.fight.assignekills.init = {
             init : f => {
