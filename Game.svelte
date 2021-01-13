@@ -47,7 +47,7 @@
     
     phases.init(G)
     factions(G,phases)
-    let playerinit = ( faction='', units = [], doom=0, power=0 ) => ({ units,faction,doom,power,books:[] })
+    let playerinit = ( faction='', units = [], doom=0, power=0 ) => ({ units,faction,doom,power,books:[],temp:{} })
     let fmove = ({unit, place}) => { unit.place = place; unit.gate=0;}
     let genid = f => nonce++
     let nonce = 0
