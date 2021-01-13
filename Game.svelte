@@ -128,7 +128,7 @@
             ul(style='padding:0')
                 +each('actions as action')
                     +if('G.stage.includes("unit")')
-                        li(on:click='{click(action)}') {action.type}
+                        li(on:click='{click(action)}') {action.type} in {action.place||"pool"}
                         +elseif('G.stage.includes("player") || G.stage.includes("enemy") || G.stage.includes("faction")')
                             li(on:click='{click(action)}') {action.faction.name}
                             +else
