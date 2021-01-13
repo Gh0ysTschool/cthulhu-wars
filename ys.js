@@ -84,14 +84,14 @@ let named = () => {
     G.player.temp.turn.named = 1
     phs.addPhase('named',{
         unlim,
-        req : f => G.player.faction.name == 'ys' && G.places[G.player.units.find( u => u.type = 'Hastur' ).place] && !G.player.temp.turn.named && !G.player.temp.turn.scream && G.player.power > 0,
+        req : f => G.player.faction.name == 'ys' && G.player.units.find( u => u.type = 'Hastur' && G.places[u.place]) && !G.player.temp.turn.named && !G.player.temp.turn.scream && G.player.power > 0,
         start : 'place',
         stages: {               
             place : {
-                options : f=>Array.from( new Set(G.players.filter( p => p.faction.name != 'ys' ).units.filter( u => u.type == 'cult' ).map( u => u.place ) ) ),
+                options : f=>Array.from( new Set(G.players.filter( p => p.faction.name != 'ys' ).map(p => p.units).join().filter( u => u.type == 'cult' ).map( u => u.place ) ) ),
                 moves : {
                     choose : (np, c) => {
-                        if ( ( np == 'place' || np == 'named' ) && Array.from( new Set(G.players.filter( p => p.faction.name != 'ys' ).units.filter( u => u.type == 'cult' ).map( u => u.place ) ) ).includes(c)) {
+                        if ( ( np == 'place' || np == 'named' ) && Array.from( new Set(G.players.filter( p => p.faction.name != 'ys' ).map(p => p.units).join().filter( u => u.type == 'cult' ).map( u => u.place ) ) ).includes(c)) {
                             G.player.temp.turn.named = 1
                             G.player.units.find( u => u.type = 'Hastur' ).place = c
                             G.player.power--
