@@ -216,7 +216,7 @@ let scream = () => {
     G.choices.scream = {place:null}
     phs.addPhase('scream',{
         unlim,
-        req : f => G.player.faction.name == 'ys' && G.places[G.player.units.find( u => u.type = 'King in Yellow' ).place] && !G.player.temp.turn.named && !G.player.temp.turn.scream && player.power > 0,
+        req : f => G.player.faction.name == 'ys' && G.places[G.player.units.find( u => u.type = 'King in Yellow' ).place] && !G.player.temp.turn.named && !G.player.temp.turn.scream && G.player.power > 0,
         start : 'place',
         stages: {               
             place : {
