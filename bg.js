@@ -91,7 +91,8 @@ let sac2cult = () => phs.addPhase('sac 2 cultists',{
                 choose : (np, c) => {
                     if ( ( np == 'unit' || np == 'sac 2 cultists' ) && G.player.units.filter( u => u.type == 'cult' && Object.keys(G.places).includes(u.place) ).includes(c)) {
                         G.player.sacs--
-                        c.place=''
+                        c.place = ''
+                        c.gate = 0
                         if (G.player.sacs == 0) {
                             G.player.faction.bookreqs[0]['sac 2 cults'] = f => true
                             phs.endPhase()
@@ -110,7 +111,8 @@ let bgsac = () => phs.addStage('bg-sacunit',{
         choose : (np, c) => {
             if ( (np == 'unit' || np == 'bg-sacunit') && G.player.units.filter( u => u.type == 'cult' ).includes(c) ) {
                 G.player.sacs--
-                c.place=''
+                c.place = ''
+                c.gate = 0
                 G.forceRerender()
                 if (G.player.sacs == 0) phs.endStage()
             }
