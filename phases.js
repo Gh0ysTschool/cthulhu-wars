@@ -21,7 +21,7 @@ let calcDamage = (p) => {
 }
 let roll = ( dice ) => Math.floor((Math.random() * 6) + 1)
 let endTurn = t => { 
-    G.player.temp.turn = {}
+    G.players.map( p => p.temp.turn = {} )
     if (!G.players.filter( p => p.power ).length) 
         phases.setPhase('gather')
     G.turn.lim=1; 
