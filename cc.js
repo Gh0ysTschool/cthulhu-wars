@@ -5,12 +5,12 @@ let faction = (g,p) => {
     phs = p
     let books = ["Abduct","Emissary of the Outer Gods","Invisibility","Madness","Seek and Destroy","The Thousand Forms"]
     let bookinit = {
-        "Abduct":f=>{},
-        "Emissary of the Outer Gods":f=>{},
-        "Invisibility":f=>{},
-        "Madness":f=>{},
-        "Seek and Destroy":f=>{},
-        "The Thousand Forms":f=>{}
+        "Abduct":abduct,
+        "Emissary of the Outer Gods":emissary,
+        "Invisibility":invisibility,
+        "Madness":madness,
+        "Seek and Destroy":seekanddestroy,
+        "The Thousand Forms":thousandforms
     }
     let bookreqs = [
         {'pay 4 pwoer':f=>false },
@@ -45,15 +45,18 @@ let faction = (g,p) => {
             ...[0,1,2].map( f=> G.unit('Flying Polyp',p,'',2,1,1)),
             ...[0,1].map( f=> G.unit('Hunting Horror',p,'',3,2,1)),
         ]
+        flight()
     }
     let faction = {bookinit,books,bookreqs,goo,mons,color,start,name,units,addUnit,initUnits}
     pay4()
     pay6()
     pay10()
+    harbinger()
     return faction
 }
 
-let hasBookReq = ( b ) => G.player.bookreqs.find( o => Object.keys(o).includes(b) )
+let lim = 1, unlim = 1
+let hasBookReq = ( b ) => G.player.faction.bookreqs.find( o => Object.keys(o).includes(b) )
 let pay4 = () => phs.addPhase('pay 4 power',{
     req : f => G.player.faction.name == 'cc' && G.player.power > 3 && hasBookReq('pay 4 power'),
     init : f => {G.player.power -= 4; G.player.bookreqs[G.player.bookreqs.indexOf(hasBookReq('pay 4 power'))] = {'pay 4 power':F=>true}; endStage() }
