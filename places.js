@@ -1,4 +1,4 @@
-const place = (name='',adjacent=[],ocean=false,gate=0) => ({name,adjacent,ocean,gate,renderGate:f=>{}})
+const place = (name='',adjacent=[],ocean=false,gate=0) => ({glyphs:[],name,adjacent,ocean,gate,renderGate:f=>{}})
 const 
     arcticocean = place('arcticocean',['northamerica','northatlantic','northpacific','scandinavia','northasia'],true),
     northpacific = place('northpacific',['arcticocean','northamerica','southamerica','indianocean','southpacific','northasia','southasia']),
