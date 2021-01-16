@@ -47,7 +47,7 @@ let faction = (g,p) => {
             {...G.unit("Hastur",p,'',10,f=>G.ritual.cost,2),...awakenhast},
             {...G.unit("King in Yellow",p,'',4,0,2),...awakenking},
             ...[0,1,2,3,4,5].map( f=> G.unit('Undead',p,'',1,f=>G.units.filter( u => u.place == G.choices.combat.place && u.type == "Undead").length-1,1)),
-            ...[0,1,2,3].map( f=> G.unit("Bya'khee",p,'',2,f=>G.units.filter( u => u.place == G.choices.combat.place && u.type == "Bya'khee").length+1,1)),
+            ...[0,1,2,3].map( f=> G.unit("Byakhee",p,'',2,f=>G.units.filter( u => u.place == G.choices.combat.place && u.type == "Bya'khee").length+1,1)),
         ]
     }
 
