@@ -6,7 +6,8 @@
     import {onMount} from 'svelte'
     let el
     onMount(x=>{
-        el.style.background = unit.owner.faction.color + ` url(./${unit.type.toLowerCase().replaceAll("'",'').split(' ').join('')}.webp) center center`
+        let imgurl = ((unit.type=='cult') ? unit.owner.faction.name : '') + unit.type.toLowerCase().replaceAll("'",'').split(' ').join('')
+        el.style.background = unit.owner.faction.color + ` url(./${imgurl}.webp) center center`
         el.style.backgroundSize = '100% 100%'
     })
     let click = e => {
@@ -50,5 +51,5 @@
 
 <!-- prettier-ignore -->
 <template lang="pug">
-    .unit( bind:this='{el}' class:mon='{unit.tier==1}' class:goo='{unit.tier==2}' on:click='{click}' class:gate='{unit.gate}') {unit.type[0]}
+    .unit( bind:this='{el}' class:mon='{unit.tier==1}' class:goo='{unit.tier==2}' on:click='{click}' class:gate='{unit.gate}')
 </template>
