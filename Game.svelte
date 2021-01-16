@@ -128,9 +128,9 @@
             ul(style='padding:0')
                 +each('actions as action')
                     +if('G.stage.includes("unit")')
-                        li(on:click='{click(action)}') {action.type} in {action.place||"pool"}
+                        li(on:click='{click(action)}' style='color:{action.owner.faction.color}') {action.type} in {action.place||"pool"}
                         +elseif('G.stage.includes("player") || G.stage.includes("enemy") || G.stage.includes("faction")')
-                            li(on:click='{click(action)}') {action.faction.name}
+                            li(on:click='{click(action)}' style='color:{action.faction.color}') {action.faction.name}
                             +else
                                 li(on:click='{click(action)}') {action}
                 +if('G.phases[G.phase].stages && G.phases[G.phase].stages[G.stage].moves.done')
