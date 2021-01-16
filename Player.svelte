@@ -36,11 +36,16 @@
         font-family 'Montserrat', arial
         transition height 0.5s
         text-align center
+        max-width 18vw
+        @media only screen and (max-device-width 1000px)
+            font-size 0.5em
         .details
             height 1%
             overflow hidden
             transition height 0.5s
             padding: 0;
+            @media only screen and (max-device-width 1000px)
+                font-size 2em
             li
                 text-align center
                 list-style-type none
@@ -53,6 +58,11 @@
                 height 100%
                 .active
                     border 0.2em solid
+        .units
+            display flex
+            flex-wrap wrap
+            @media only screen and (max-device-width 1000px)
+                font-size 0.5em
 </style>
 
 <!-- prettier-ignore -->
@@ -69,7 +79,7 @@ ul
                 li {Object.keys(book)[0]}
             +each ('player.books as book')
                 li.active {book}
-            div(style='display:grid;grid-template-columns: auto auto auto auto')
+            div.units
                 +each ("player.units.filter( u => u.place == '') as unit")
                     Unit('{unit}' choose='{choose}')
                 +each ("G.units.filter( u => u.place == player.faction.name) as unit")
