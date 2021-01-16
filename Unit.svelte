@@ -6,7 +6,7 @@
     import {onMount} from 'svelte'
     let el
     onMount(x=>{
-        el.style.background = unit.owner.faction.color + ` url(./${unit.type.toLowerCase().split(' ').join('')}.webp) center center`
+        el.style.background = unit.owner.faction.color + ` url(./${unit.type.toLowerCase().replaceAll("'",'').split(' ').join('')}.webp) center center`
         el.style.backgroundSize = '100% 100%'
     })
     let click = e => {
