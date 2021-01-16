@@ -64,15 +64,17 @@ books
 x 2021-01-09 scaffold ys abilities
 x 2021-01-08 phases reset single use spellbooks
 x 2021-01-10 seperate player.temp catagories for stage, phase, turn, game, duration, etc
-cthulhu always first player
+x 2021-01-13 cthulhu always first player
 move book phses to access G passed down to factions
-expose addphase and addstage to factions
+x 2021-01-13 expose addphase and addstage to factions
 x 2021-01-10 invoke phase.init / phase.stage.init on start of phase / stage
 x 2021-01-10 move init logic out of options initializer functions for legacy phases
 x 2020-12-24 init spellbook on aquire
+bg should be able to eend turn after summoning ( make fertility and summoning seperate actions )
 x 2021-01-10 cc invisibility: set unit.place to 'invisible'
-display players by their faction name in choices like you display units by their tyoe
-color choosable units by their faction regardless of turn
-show unit's locations along with type in choices
+x 2021-01-13 display players by their faction name in choices like you display units by their tyoe
+x 2021-01-15 color choosable units by their faction regardless of turn
+x 2021-01-15 color choosable players by their faction regardless of turn
+x 2021-01-13 show unit's locations along with type in choices
 ritualcost treated as track rather than number (in doom phase)
 units should provide their place as seleciton if the stage contains 'place'
