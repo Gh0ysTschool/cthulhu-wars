@@ -96,7 +96,6 @@
                 font-size 2em
                 
     .actions
-        position absolute
         height 4vh
         font-family 'Montserrat',arial
         margin 0.5%
@@ -124,6 +123,8 @@
 <template lang="pug">
     Map('{...G}')
     .hud
+        +each('G.players as player')
+            Player(choose='{G.choose}' '{player}' '{G}')
         .actions(style='color: {G.player.faction.color}') actions
             ul(style='padding:0')
                 +each('actions as action')
@@ -137,7 +138,4 @@
                     li(on:click='{G.phases[G.phase].stages[G.stage].moves.done}') done
                     +elseif('G.phases[G.phase].moves && G.phases[G.phase].moves.done')
                         li(on:click='{G.phases[G.phase].moves.done}') done
-        
-        +each('G.players as player')
-            Player(choose='{G.choose}' '{player}' '{G}')
     </template>

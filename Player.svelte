@@ -35,6 +35,7 @@
         position relative
         font-family 'Montserrat', arial
         transition height 0.5s
+        text-align center
         .details
             height 1%
             overflow hidden
