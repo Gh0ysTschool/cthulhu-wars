@@ -14,14 +14,6 @@
     }
 </script>
 <style lang="stylus">
-    .player
-        padding 1em
-        margin 1em
-        border 0.4em solid black
-        box-sizing border-box
-        box-shadow 1px 1px 4px 1px #000a
-        position relative
-        color #121212
     .player2
         background #343434
         height 3.4vh
@@ -66,12 +58,6 @@
 </style>
 
 <!-- prettier-ignore -->
-<!-- 
-.player(bind:this='{el}' on:click='{click}') {player.faction.name}
-ul
-    li doom {player.doom}
-    li power {player.power}
-    li spellbooks -->
 <template lang="pug">
     .player2(bind:this='{el}' on:click='{click}') {player.faction.name} | dm {player.doom} | pw {player.power} | sb {player.books.length}
         ul.details 
