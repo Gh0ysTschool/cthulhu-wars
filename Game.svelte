@@ -6,6 +6,7 @@
     import factions from './factions.js'
     import phases from './phases.js'
     import Unit from './Unit.svelte'
+import faction from './bg'
     
     let forceRerender = f => {
         G = G
@@ -124,7 +125,7 @@
 <template lang="pug">
     Map('{...G}')
     .hud
-        +each('G.players as player')
+        +each('G.players as player (player.faction.name)')
             Player(choose='{G.choose}' '{player}' '{G}')
         .actions(style='color: {G.player.faction.color}') actions
             ul(style='padding:0')
