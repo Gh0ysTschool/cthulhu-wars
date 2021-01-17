@@ -13,8 +13,8 @@ let faction = (g,p) => {
         "The Thousand Forms":thousandforms
     }
     let bookreqs = [
-        {'pay 4 pwoer':f=>false },
-        {'pay 6 pwoer':f=>false },
+        {'pay 4 power':f=>false },
+        {'pay 6 power':f=>false },
         {'3 gates / 12 power':f=> G.player.units.filter( u => u.gate ).length > 2 || G.player.power > 11 },
         {'4 gates / 16 power':f=> G.player.units.filter( u => u.gate ).length > 3 || G.player.power > 15 },
         {'capture':f=> units.filter( u => u.place == G.player.faction).length },
