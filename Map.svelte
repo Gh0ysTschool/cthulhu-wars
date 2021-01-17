@@ -157,7 +157,7 @@
         background-image none
         background #55555533
         @media only screen and (max-device-width 1000px)
-            font-size 0.35em
+            font-size 0.6em
     .l
         display grid
         grid-template-columns: repeat(auto-fit, minmax(0.5em, 2em));
