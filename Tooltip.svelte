@@ -23,6 +23,15 @@
         "The Thousand Forms":"(Action: Cost 0): If Nyarlathotep is in play, roll a die. Your foes lose that much Power between them; they have 1 minute to decide how much each loses. If they cannot agree, you receive Power equal to the number rolled. Flip this spellbook over; it cannot be used again in this Action Phase. During the Gather Power Phase, flip it face-up again.",
         "Flight": "(Ongoing): All of your Units can fly (even Cultists). When Moved, they can travel 2 Areas. They can fly over Areas containing enemy units.",
         "The Habinger": "(Post-Battle): If Nyarlathotep is in a Battle in which one or more enemy Great Old Ones are Pained or Killed, you receive Power equal to half of the cost of Awakening those Great Old Ones. For each enemy Great Old One Pained or Killed, you may choose to receive 2 Elder Signs instead of Power.",
+        "He Who Must Not Be Named":"(Action: Cost 1): Move Hastur to any Area containing a Cultist of any Faction. You may then take a second, different Action. You may NOT take The Screaming Dead as your second Action.",
+        "Passion":"(Ongoing): When one or more of your Cultists are Eliminated by an enemy (Killed, Captured, etc.), gain 1 Power.",
+        "Shriek of the Byakhee":"(Action: Cost 1): Move any or all Byakhee from their current Area(s) to any one Area on the Map.",
+        "The Screaming Dead":"(Action: Cost 1): Move the King in Yellow to an adjacent Area. Any Undead in the same Area can move with him for free. You may then take a second, different Action. You may NOT take He Who is Not to be Named as your second Action.",
+        "The Third Eye":"(Ongoing): If Hastur is in play, the cost of Desecration is reduced by 1. If the Desecration succeeds, you also receive 1 Elder Sign.",
+        "Zin Gaya":"(Action: Cost 1): Choose an Area containing any of your Undead and at least one enemy Acolyte Cultist. Your enemy Eliminates one of his Acolyte Cultists from that Area. Place an Undead from your Pool into that Area.",
+        "Feast": "(Gather Power Phase): Gain +1 Power for each Area containing both a Desecration token and one or more of your Units.",
+        "Desecrate": "(Action: Cost 2): If the King is in an Area with no Desecration token, roll 1 die. If the roll is equal to or less than the number of your Units in the Area (including the King), place a Desecration token in the Area. Whether you succeed or fail, place a Monster or Cultist with a cost of 2 or less in the Area.",
+        "Vengence": "(Post-Battle): If Hastur is involved in a Battle, choose which Combat results are applied to which enemy Units (e.g., apply a Kill to a particular Great Old One).",
         
     }
   onMount(f=>{
