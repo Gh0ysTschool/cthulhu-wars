@@ -160,7 +160,7 @@
             font-size 0.6em
     .l
         display grid
-        grid-template-columns: repeat(auto-fit, minmax(0.5em, 2em));
+        grid-template-columns: repeat(auto-fit, clamp(1.2em, 1.5em, 3em));
         align-content center
         box-sizing border-box
         padding 1em
