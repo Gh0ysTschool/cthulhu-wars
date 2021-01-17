@@ -136,7 +136,8 @@
         background southpacific
     .southatlantic
         grid-column 7 / 11
-        grid-row 12 / span 3
+        // grid-row 12 / span 3
+        grid-row 11 / span 3
         background southatlantic
     .eastafrica
         grid-column 11 / 13
