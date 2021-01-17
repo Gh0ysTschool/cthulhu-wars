@@ -32,7 +32,14 @@
         "Feast": "(Gather Power Phase): Gain +1 Power for each Area containing both a Desecration token and one or more of your Units.",
         "Desecrate": "(Action: Cost 2): If the King is in an Area with no Desecration token, roll 1 die. If the roll is equal to or less than the number of your Units in the Area (including the King), place a Desecration token in the Area. Whether you succeed or fail, place a Monster or Cultist with a cost of 2 or less in the Area.",
         "Vengence": "(Post-Battle): If Hastur is involved in a Battle, choose which Combat results are applied to which enemy Units (e.g., apply a Kill to a particular Great Old One).",
-        
+        "Blood Sacrifice": "(Doom Phase): If Shub-Niggurath is in play during the Doom Phase, you can choose to eliminate one of your Cultists. If you do, gain 1 Elder Sign.",
+        "Frenzy": "(Ongoing): Your Cultists now have 1 Combat.",
+        "Ghroth": "(Action: Cost 2): Roll a die. If the result is less than or equal to the number of Areas containing Fungi, your enemies must Eliminate a number of Cultists equal to the die roll. They have 1 minute in which to decide how to distribute these Eliminations. If time runs out, you choose for them. If the die roll is greater than the number of Areas with Fungi, place any Faction's Acolyte anywhere on the map.",
+        "Necrophagy": "(Post-Battle): Move any or all Ghouls (who did not participate in the Battle) from any Area to the Battle Area, even if your Faction was not involved in the Battle. Each side involved in the Battle suffers an additional Pain result for each Ghoul moved in this way.",
+        "The Red Sign": "(Ongoing): Dark Young can Create and Control Gates. Each adds 1 to Shub-Niggurath's Combat and each provides 1 Power during the Gather Power Phase. They do not act as Cultists with respect to any other purpose.",
+        "The Thousand Young": "(Ongoing): If Shub-Niggurath is in play, Ghouls, Fungi, and Dark Young each cost 1 less Power to Summon.",
+        "Avatar": "(Action: Cost 1): Choose an Area and a Faction. Swap the location of Shub-Niggurath with that of a Monster or Cultist in the chosen Area. The owner of the chosen Faction chooses which Unit to relocate.",
+        "Fertility Cult": "(Ongoing): You may Summon Monsters as an Unlimited Action.",
     }
   onMount(f=>{
     el = document.body.querySelector(".tooltip")
