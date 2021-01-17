@@ -17,9 +17,10 @@
 </script>
 <style lang="stylus">
     .unit
+        font-size 0.6em
         width 2em
         height 2em
-        border 0.4em solid black
+        border 0.2em solid black
         border-radius 50%
         box-sizing border-box
         box-shadow 1px 1px 4px 1px #000a

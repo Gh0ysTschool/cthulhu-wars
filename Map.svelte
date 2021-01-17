@@ -73,10 +73,10 @@
     .grid
         z-index 9
     .grid, .grid2
-        top 5%
-        left 2%
-        right 2%
-        bottom 2%
+        top 0
+        left 0
+        right 15%
+        bottom 0
         background-image url('./../earth35.png')
         display grid
         background-size 100% 100%
@@ -160,11 +160,12 @@
             font-size 0.35em
     .l
         display grid
-        grid-template-columns: repeat(auto-fit, minmax(1em, 3em));
+        grid-template-columns: repeat(auto-fit, minmax(0.5em, 2em));
         align-content center
         box-sizing border-box
         padding 1em
-        row-gap 0.5em
+        row-gap 0.2em
+        columns-gap 0.2em
         justify-content center
         align-items center
 </style>

@@ -85,10 +85,11 @@ import faction from './bg'
         position absolute
         top 0
         right 0
-        left 0
+        width 15%
+        height 100%
         z-index 10
         display flex
-        flex-direction row
+        flex-direction column
         ul
             list-style-type none
             li
@@ -98,7 +99,7 @@ import faction from './bg'
                 font-size 2em
                 
     .actions
-        height 4vh
+        height 80%
         font-family 'Montserrat',arial
         margin 0.5%
         padding 0.1em
@@ -116,8 +117,6 @@ import faction from './bg'
         background #323232
         transition height 0.5s
         overflow-y scroll
-        &:hover, &:active
-            height: 90vh
 
         
 </style>

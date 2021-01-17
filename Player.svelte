@@ -16,7 +16,7 @@
 <style lang="stylus">
     .player2
         background #343434
-        height 3.4vh
+        height 5%
         margin 0.5%
         padding 0.1em
         padding-left 0.8em
@@ -45,7 +45,7 @@
                 border-bottom 0.1em solid
                 margin 0.2em
         &:hover, &:active
-            height 90vh
+            height 80%
             .details
                 height 100%
                 .active
