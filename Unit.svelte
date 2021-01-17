@@ -36,10 +36,10 @@
             z-index -1
             position absolute
             border-radius 50%
-            top -0.8em
-            bottom -0.8em
-            left -0.8em
-            right -0.8em
+            top -0.6em
+            bottom -0.6em
+            left -0.6em
+            right -0.6em
             box-shadow 1px 1px 4px 1px #000a
             background #ddd
     .mon
