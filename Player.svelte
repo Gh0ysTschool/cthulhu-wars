@@ -18,6 +18,7 @@
 <style lang="stylus">
     .player2
         background #343434
+        border-radius 0
         height 5%
         margin 0.5%
         padding 0.1em
