@@ -55,7 +55,7 @@ let faction = (g,p) => {
 
 let lim = 1, unlim = 1, req = f => true, init = f => {}
 
-let emerge = () => addPhase( 'emerge',{
+let emerge = () => phs.addPhase( 'emerge',{
     lim,
     start : 'place',
     req: f => G.player.units.find( u => u.type == 'Great Cthulhu').place == 'submerged',
