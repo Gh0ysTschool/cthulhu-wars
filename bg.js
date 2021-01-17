@@ -14,11 +14,11 @@ let faction = (g,p) => {
     }
     let bookreqs = [
         {'sac 2 cults':f=>false },
-        {'be in 4 areas':f=> Object.keys(G.places).filter( p => G.player.units.map( u => u.place ).includes(p) ).length > 3 },
-        {'be in 6 areas':f=> Object.keys(G.places).filter( p => G.player.units.map( u => u.place ).includes(p) ).length > 5 },
-        {'be in 8 areas':f=> Object.keys(G.places).filter( p => G.player.units.map( u => u.place ).includes(p) ).length > 7 },
+        {'be in 4 areas':f=> Object.keys(G.places).filter( p => G.players.find( pl => pl.faction.name == 'bg' ).units.map( u => u.place ).includes(p) ).length > 3 },
+        {'be in 6 areas':f=> Object.keys(G.places).filter( p => G.players.find( pl => pl.faction.name == 'bg' ).units.map( u => u.place ).includes(p) ).length > 5 },
+        {'be in 8 areas':f=> Object.keys(G.places).filter( p => G.players.find( pl => pl.faction.name == 'bg' ).units.map( u => u.place ).includes(p) ).length > 7 },
         {"Awaken Shub Nigur'rath":f=> G.choices.awaken.unit?.type=="Shub Nigur'rath"},
-        {'be in all enemy areas':f=> G.players.filter( pl => pl.units.filter( un => Object.keys(G.places).filter( p => G.player.units.map( u => u.place ).includes(p) ).includes(un.place) ).length).length == G.players.length  }
+        {'be in all enemy areas':f=> G.players.filter( pl => pl.units.filter( un => Object.keys(G.places).filter( p => G.players.find( pl => pl.faction.name == 'bg' ).units.map( u => u.place ).includes(p) ).includes(un.place) ).length).length == G.players.length  }
     ]
     let goo = "Shub Nigur'rath"
     let mons = {'Ghoul':2,Fungi:4,'Dark Young':2}
