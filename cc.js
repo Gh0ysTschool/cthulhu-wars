@@ -122,7 +122,7 @@ let seekanddestroy = () => phs.addStage('seek and destroy',{
 },'fight','enemy')
 
 let madness = () => {
-    madphase = {
+    let madphase = {
         init : f => {
             phs.interuptStage('fight','placeeretreats',G.players.indexOf(G.players.find( p => p.faction.name == 'cc' ) ))
         },
