@@ -152,11 +152,11 @@ let phases = {
                     options : f => ['keep turn order','reverse turn order'],
                     moves : {
                         choose : (np,c) => {
-                            let p = G.players[G.turn.pi]
+                            let p = G.players[G.turn.pi%G.players.length]
                             if( ['keep turn order','reverse turn order'].includes(c) ) {
                                 if (c == 'reverse turn order') {
                                     G.players = G.players.reverse()
-                                    G.turn.pi = G.players.indexOf(p)
+                                    G.turn.pi = G.players.indexOf(G.players.find( pp => pp.faction.name == p.faction.name))
                                 }
                                 G.players.map( p => p.ritual = 1)
                                 setPhase('doom')
