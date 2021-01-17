@@ -35,7 +35,7 @@
             font-size 0.5em
         .details
             height 1%
-            overflow hidden
+            overflow-y hidden
             transition height 0.5s
             padding: 0;
             @media only screen and (max-device-width 1000px)
@@ -76,8 +76,6 @@
                 +each ("G.units.filter( u => u.place == player.faction.name) as unit")
                     Unit('{unit}' choose='{choose}')
             +each ("player.faction.books as book")
-                Tooltip(left=true)
+                Tooltip(key='{book}' left=true)
                     .book {book}
-                    div(slot='custom-tip') 
-                        Description(tag='{book}')
 </template>

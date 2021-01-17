@@ -120,6 +120,7 @@ import faction from './bg'
 
 <!-- prettier-ignore -->
 <template lang="pug">
+    .tooltip(class='hidden' style='position:absolute;background:black;width:10em;z-index:100') wubwub
     Map('{...G}')
     .hud
         +each('G.players as player (player.faction.name)')
