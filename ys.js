@@ -18,8 +18,8 @@ let faction = (g,p) => {
         {'Desecrate \\|/':f=> Object.values(G.places).filter( p => p.desecrated && p.glyphs['\\|/']).length },
         {'Desecrate \\o/':f=> Object.values(G.places).filter( p => p.desecrated && p.glyphs['\\o/']).length },
         {'Desecrate \\-/':f=> Object.values(G.places).filter( p => p.desecrated && p.glyphs['\\-/']).length },
-        {"Awaken King in Yellow":f=> G.choices.awaken.unit?.name=='King in Yellow'},
-        {"Awaken Hastur":f=> G.choices.awaken.unit?.name=='Hastur'}
+        {"Awaken King in Yellow":f=> G.choices.awaken.unit?.type=='King in Yellow'},
+        {"Awaken Hastur":f=> G.choices.awaken.unit?.type=='Hastur'}
     ]
     let goo = ['King in Yellow','Hastur']
     let mons = {Undead:2,"Bya'khee":4}

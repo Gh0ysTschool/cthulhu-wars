@@ -18,7 +18,7 @@ let faction = (g,p) => {
         {'3 gates / 12 power':f=> G.player.units.filter( u => u.gate ).length > 2 || G.player.power > 11 },
         {'4 gates / 16 power':f=> G.player.units.filter( u => u.gate ).length > 3 || G.player.power > 15 },
         {'capture':f=> units.filter( u => u.place == G.player.faction).length },
-        {"Awaken Nyarlathotap":f=> G.choices.awaken.unit?.name=='Nyarlathotap'},
+        {"Awaken Nyarlathotap":f=> G.choices.awaken.unit?.type=='Nyarlathotap'},
     ]
     let goo = 'Nyarlathotap'
     let mons = {Nightgaunt:3,"Hunting Horror":2,"Flying Polyp":3}
