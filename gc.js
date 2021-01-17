@@ -215,7 +215,7 @@ let devour = () => {
     phs.addStage('devourunit',dvstage,'fight','roll')
 }
 let yhanthlei = () => {
-    yhstage = {
+    let yhstage = {
         init : f=>{
             G.players.find( p => p.faction.name == 'gc' ).power += G.player.power += oceans.filter( o => G.places[o].gate && G.units.filter( u => u.place == o && u.gate && u.owner.faction.name != 'gc' ).length ).length
             phs.endStage()
