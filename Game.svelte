@@ -9,7 +9,7 @@
 import faction from './bg'
     
     let forceRerender = f => {
-        // console.log(G)
+        console.log(G)
         G = G
     }
     let players, turn, phase, stage, choices, units, player

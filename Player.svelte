@@ -1,6 +1,8 @@
 <script lang="javascript">
     export let choose,player,G
     import Unit from './Unit.svelte'
+    import Tooltip from './Tooltip.svelte'
+    import Description from './Description.svelte'
     import { createEventDispatcher } from 'svelte';
     let dispatch = createEventDispatcher();
     import {onMount} from 'svelte'
@@ -55,6 +57,9 @@
             flex-wrap wrap
             @media only screen and (max-device-width 1000px)
                 font-size 0.5em
+        .book
+            border-radius 0
+            border 0.1em dotted
 </style>
 
 <!-- prettier-ignore -->
@@ -70,4 +75,9 @@
                     Unit('{unit}' choose='{choose}')
                 +each ("G.units.filter( u => u.place == player.faction.name) as unit")
                     Unit('{unit}' choose='{choose}')
+            +each ("player.faction.books as book")
+                Tooltip(left=true)
+                    .book {book}
+                    div(slot='custom-tip') 
+                        Description(tag='{book}')
 </template>
