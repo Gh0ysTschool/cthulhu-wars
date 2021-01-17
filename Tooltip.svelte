@@ -15,6 +15,12 @@
         'Regenerate': "(Post-Battle): Assign up to 2 Kill or Pain Battle results to the same Starspawn. If 2 Kills are applied, the Starpspawn is Killed. On any other combination of Kill or Pain results, the Starspawn is only Pained.",
         'Submerge': "(Action: Cost 1): If Cthulhu is in an ocean or sea Area, remove him from the Map and place him on your Faction Card, along with any or all of your Units in the Area. Later, as a 0-cost Action, you may place Cthulhu, plus all accompanying Units, into any Area.",
         "Y'hn Nthlei": "(Ongoing): During the Gather Power Phase, if Cthulhu is in play, gain 1 Power for each enemy-controlled Gate in an ocean or sea Area.",
+        "Abduct":"(Pre-Battle): Eliminate one or more Nightgaunts from the Battle. For each one Eliminated, your enemy must Eliminate one of his own Monsters or Cultists from the Battle.",
+        "Emissary of the Outer Gods":"(Post-Battle): Unless an enemy Great Old One is involved in the Battle, a Kill applied to Nyarlathotep becomes a Pain. If Nyarlathotep cannot be Pained due to being surrounded, he is not Eliminated.",
+        "Invisibility":"(Pre-Battle): Select one Monster or Cultist (from either Faction) for each Flying Polyp present and 'exempt' it. The selected Unit does not participate in the rest of the Battle.",
+        "Madness":"(Ongoing): After all Pain results have been assigned, you, rather than the Units' owners, choose the Area(s) to which all Pained Units will go. You may apply these results in any order (rather than the normal 'attacker first, then defender'), but you must still follow all other rules. Do this even for Battles in which you did not participate.",
+        "Seek and Destroy":"(Pre-Battle): Immediately move any or all Hunting Horrors from any Area(s) into the Battle Area.",
+        "The Thousand Forms":"(Action: Cost 0): If Nyarlathotep is in play, roll a die. Your foes lose that much Power between them; they have 1 minute to decide how much each loses. If they cannot agree, you receive Power equal to the number rolled. Flip this spellbook over; it cannot be used again in this Action Phase. During the Gather Power Phase, flip it face-up again."
     }
   onMount(f=>{
     el = document.body.querySelector(".tooltip")
