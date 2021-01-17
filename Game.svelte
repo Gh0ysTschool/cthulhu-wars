@@ -9,6 +9,7 @@
 import faction from './bg'
     
     let forceRerender = f => {
+        // console.log(G)
         G = G
     }
     let players, turn, phase, stage, choices, units, player
@@ -74,9 +75,9 @@ import faction from './bg'
     G.rituals = 0
     $: G.ritualcost = G.ritualtracks[G.players.length][G.rituals]
     let choose = x => {}
-    $: actions = (G.stage == '') ? G.phases[G.phase].options() : G.phases[G.phase].stages[G.stage].options()
+    $: actions = (G.stage == '') ? G.phases[G.phase]?.options()||[] : G.phases[G.phase].stages[G.stage]?.options()||[]
     let noop = (np,c) => {}
-    $: G.choose = ((G.stage == '') ? G.phases[G.phase].moves.choose : G.phases[G.phase].stages[G.stage].moves.choose)||noop
+    $: G.choose = ((G.stage == '') ? G.phases[G.phase]?.moves?.choose||noop : G.phases[G.phase].stages[G.stage]?.moves?.choose)||noop
     let click = action => f => G.choose(G.stage,action)
 </script>
 <style lang="stylus">
