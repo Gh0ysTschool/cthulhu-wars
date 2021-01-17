@@ -102,17 +102,14 @@ import faction from './bg'
         height 80%
         font-family 'Montserrat',arial
         margin 0.5%
-        padding 0.1em
+        padding 0.3em
         text-align center
-        padding-left 2em
-        padding-right 2em
         border 0.1em solid black
         box-sizing border-box
         box-shadow 1px 1px 4px 1px #000a
         overflow hidden
         top 0
-        width fit-content
-        right 1%
+        width 100%
         color #ababab
         background #323232
         transition height 0.5s
