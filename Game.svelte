@@ -79,6 +79,17 @@ import faction from './bg'
     let noop = (np,c) => {}
     $: G.choose = ((G.stage == '') ? G.phases[G.phase]?.moves?.choose||noop : G.phases[G.phase].stages[G.stage]?.moves?.choose)||noop
     let click = action => f => G.choose(G.stage,action)
+    
+    let firebaseConfig = {
+        apiKey: "AIzaSyAtutNxHpxtCJi3EUB3irfhNiTfoMu1zLY",
+        authDomain: "cw-wars.firebaseapp.com",
+        databaseURL: "https://cw-wars-default-rtdb.firebaseio.com",
+        projectId: "cw-wars",
+        storageBucket: "cw-wars.appspot.com",
+        messagingSenderId: "311965598360",
+        appId: "1:311965598360:web:b4f0ff76188930035e86ed"
+    }
+    firebase.initializeApp(firebaseConfig);
 </script>
 <style lang="stylus">
     .hud
@@ -119,6 +130,7 @@ import faction from './bg'
 </style>
 
 <!-- prettier-ignore -->
+
 <template lang="pug">
     .tooltip(class='hidden' style='position:absolute;background:black;width:10em;z-index:100') wubwub
     Map('{...G}')
