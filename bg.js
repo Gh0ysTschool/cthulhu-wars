@@ -1,8 +1,8 @@
-let G
-let phs
-let faction = (g,p) => {
-    G = g;
+let G, phs, H
+let faction = (g,p,h) => {
+    G = g
     phs = p
+    H = h
     let books = ["Blood Sacrifice","Frenzy","Ghroth","Necrophagy","The Red Sign","The Thousand Young"]
     let bookinit = {
         "Blood Sacrifice":blood,
@@ -12,6 +12,12 @@ let faction = (g,p) => {
         "The Red Sign":redsign,
         "The Thousand Young":thousand
     }
+    H["Blood Sacrifice"]=blood
+    H["Frenzy"]=frenzy
+    H["Ghroth"]=ghroth
+    H["Necrophagy"]=necrophagy
+    H["The Red Sign"]=redsign
+    H["The Thousand Young"]=thousand
     let bookreqs = [
         {'sac 2 cults':f=>false },
         {'be in 4 areas':f=> Object.keys(G.places).filter( p => G.players.find( pl => pl.faction.name == 'bg' ).units.map( u => u.place ).includes(p) ).length > 3 },
@@ -20,21 +26,23 @@ let faction = (g,p) => {
         {"Awaken Shub Nigur'rath":f=> G.choices.awaken.unit?.type=="Shub Nigur'rath"},
         {'be in all enemy areas':f=> G.players.filter( pl => pl.units.filter( un => Object.keys(G.places).filter( p => G.players.find( pl => pl.faction.name == 'bg' ).units.map( u => u.place ).includes(p) ).includes(un.place) ).length).length == G.players.length  }
     ]
-    let goo = "Shub Nigur'rath"
-    let mons = {'Ghoul':2,Fungi:4,'Dark Young':2}
+    H['sac 2 cults']=f=>false
+    H['be in 4 areas']=f=> Object.keys(G.places).filter( p => G.players.find( pl => pl.faction.name == 'bg' ).units.map( u => u.place ).includes(p) ).length > 3 
+    H['be in 6 areas']=f=> Object.keys(G.places).filter( p => G.players.find( pl => pl.faction.name == 'bg' ).units.map( u => u.place ).includes(p) ).length > 5 
+    H['be in 8 areas']=f=> Object.keys(G.places).filter( p => G.players.find( pl => pl.faction.name == 'bg' ).units.map( u => u.place ).includes(p) ).length > 7 
+    H["Awaken Shub Nigur'rath"]=f=> G.choices.awaken.unit?.type=="Shub Nigur'rath"
+    H['be in all enemy areas']=f=> G.players.filter( pl => pl.units.filter( un => Object.keys(G.places).filter( p => G.players.find( pl => pl.faction.name == 'bg' ).units.map( u => u.place ).includes(p) ).includes(un.place) ).length).length == G.players.length
+
     let color = 'red'
     let start = 'westafrica'
     let name = 'bg'
     let units = []
-    let addUnit = (u,p) => {
-        u.owner = p.faction.name
-        p.units = [...p.units,u]
-    }
     let awakenshub = {
         awakenplaces: () => G.player.units.filter( u => u.gate ).map( u => u.place ),
         awakenreq: ()=>G.player.power > 7 && G.player.units.filter( u => u.place != '' && u.type == 'cult').length > 1 && G.player.units.filter( u => u.gate ).length,
         cost: ()=>{ G.player.power-=8; G.player.sac = 2; phs.setStage('bg-sacunit');},
     }
+    H["Shub Nigur'rath"]=awakenshub
     let initUnits = p => {
         p.units = [
             ...p.units,
@@ -49,36 +57,11 @@ let faction = (g,p) => {
     bgsac()
     sac2cult()
     avatar()
-    let faction = {books,bookreqs,bookinit,goo,mons,color,start,name,units,addUnit,initUnits}
-    
-    return faction
+    return {books,bookreqs,bookinit,color,start,name,units,initUnits}
 }
 export default faction
 
 let lim = 1, unlim = 1, req = f => true, init = f => {}
-// let templ = {
-//     phase : {
-//         lim,
-//         init,
-//         req : f => true,
-//         start : '',
-//         stages: {               
-//             stage : {
-//                 next : '',
-//                 options : f => [],
-//                 moves : {
-//                     choose : (np, c) => {
-//                         phs.endStage()
-//                     },
-//                     done : f => {
-//                         endPhase()
-//                     }
-//                 }
-//             }
-//         }
-//     }
-// }
-
 let sac2cult = () => phs.addPhase('sac 2 cultists',{
     lim,
     req : f => G.player.faction.name=='bg' && G.player.faction.bookreqs.find( b => b['sac 2 cults'] ),

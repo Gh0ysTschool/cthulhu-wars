@@ -1,9 +1,8 @@
-let G
-let phs
-let findPlyr = (name) => G.players.find( p => p.faction.name == name)
-let faction = (g,p) => {
-    G = g;
+let G, phs, H
+let faction = (g,p,h) => {
+    G = g
     phs = p
+    H = h
     let books = ["Abduct","Emissary of the Outer Gods","Invisibility","Madness","Seek and Destroy","The Thousand Forms"]
     let bookinit = {
         "Abduct":abduct,
@@ -13,6 +12,13 @@ let faction = (g,p) => {
         "Seek and Destroy":seekanddestroy,
         "The Thousand Forms":thousandforms
     }
+    
+    H["Abduct"]=abduct
+    H["Emissary of the Outer Gods"]=emissary
+    H["Invisibility"]=invisibility
+    H["Madness"]=madness
+    H["Seek and Destroy"]=seekanddestroy
+    H["The Thousand Forms"]=thousandforms
     let bookreqs = [
         {'pay 4 power':f=>false },
         {'pay 6 power':f=>false },
@@ -21,23 +27,23 @@ let faction = (g,p) => {
         {'capture':f=> units.filter( u => u.place == G.player.faction).length },
         {"Awaken Nyarlathotap":f=> G.choices.awaken.unit?.type=='Nyarlathotap'},
     ]
-    let goo = 'Nyarlathotap'
-    let mons = {Nightgaunt:3,"Hunting Horror":2,"Flying Polyp":3}
+    H['pay 4 power']=f=>false 
+    H['pay 6 power']=f=>false 
+    H['3 gates / 12 power']=f=> G.player.units.filter( u => u.gate ).length > 2 || G.player.power > 11 
+    H['4 gates / 16 power']=f=> G.player.units.filter( u => u.gate ).length > 3 || G.player.power > 15 
+    H['capture']=f=> units.filter( u => u.place == G.player.faction).length 
+    H["Awaken Nyarlathotap"]=f=> G.choices.awaken.unit?.type=='Nyarlathotap'
     let color = 'blue'
     let start = 'southasia'
     let name = 'cc'
     let units = []
-    let addUnit = (u,p) => {
-        u.owner = p.faction.name
-        p.units = [...p.units,u]
-    }
     
     let awakennarl = {
         awakenplaces: () => G.player.units.filter( u => u.gate ).map( u => u.place ),
         awakenreq: () => G.player.power > 9 && G.player.units.filter( u => u.gate ).length,
         cost: () => { G.player.power-=10; phs.endStage(); },
     }
-    
+    H['Nyarlathotap']=awakennarl
     let initUnits = p => {
         p.units = [
             ...p.units,
@@ -48,7 +54,7 @@ let faction = (g,p) => {
         ]
         flight()
     }
-    let faction = {bookinit,books,bookreqs,goo,mons,color,start,name,units,addUnit,initUnits}
+    let faction = {bookinit,books,bookreqs,color,start,name,units,initUnits}
     pay4()
     pay6()
     pay10()
@@ -174,8 +180,8 @@ let madness = () => {
 let emissary = () => phs.addStage('emissary',{
     init : f => {
         G.players.find( p => p.faction.name == 'cc' ).units.find( u => u.type == 'Nyarlathtap' ).invulnerable = (
-            !G.choices.fight.enemy.units.find( u => findPlyr(u.owner).faction.name != 'cc' && u.tier == 2 && u.place == G.choices.fight.place) ||
-            !G.choices.fight.player.units.find( u => findPlyr(u.owner).faction.name != 'cc' && u.tier == 2 && u.place == G.choices.fight.place)
+            !G.choices.fight.enemy.units.find( u => H.findPly(u.owner).faction.name != 'cc' && u.tier == 2 && u.place == G.choices.fight.place) ||
+            !G.choices.fight.player.units.find( u => H.findPly(u.owner).faction.name != 'cc' && u.tier == 2 && u.place == G.choices.fight.place)
         )
         phs.endStage()
     },
