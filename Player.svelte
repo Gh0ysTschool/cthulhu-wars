@@ -68,7 +68,7 @@
     .player2(bind:this='{el}' on:click='{click}') {player.faction.name} | dm {player.doom} | pw {player.power} | sb {player.books.length}
         ul.details 
             +each ('player.faction.bookreqs as book')
-                li {Object.keys(book)[0]}
+                li {book}
             +each ('player.books as book')
                 li.active {book}
             div.units
