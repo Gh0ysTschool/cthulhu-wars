@@ -1,4 +1,4 @@
-let G, lim = 1, unlim = 1
+let G, lim = 1, unlim = 1, H
 let findPlyr = (name) => G.players.find( p => p.faction.name == name)
 let stealableUnitsIn = (p) => {
     let tmpunits = []
@@ -56,6 +56,13 @@ let checkbooks = () =>
             interuptStage('book','book',G.players.indexOf(p))
         }
     }))
+let checkbooksalt = () => 
+    G.players.map( p => p.faction.bookreqs.map( (l,i) => {
+        if (H[l]()){
+            p.faction.bookreqs[i] = 'waiting...'
+            interuptStage('book','book',G.players.indexOf(p))
+        }
+    }))
 let lostGates = g => Object.keys(G.places).filter( p => G.places[p].gate && !G.units.filter( u => u.place == p && u.gate).length )
 let autoMountGates = g => {
     lostGates().map( pl => {
@@ -75,6 +82,7 @@ let phaseInit = () => {
         G.phases[G.phase].stages[G.stage].init() 
     else if (G.stage == '' && G.phases[G.phase].init)
         G.phases[G.phase].init() 
+    
 }
 let setStage = s => {G.stage = s; phaseInit(); G.forceRerender();}
 let endStage = s => {autoMountGates(); if (G.phases[G.phase].stages[G.stage].next) {setStage(G.phases[G.phase].stages[G.stage].next)} else {endPhase();}}
@@ -116,7 +124,40 @@ let phases = {
     setPhase,
     setStage,
     returnStage,
-    init : g => {G = g; G.phases = phases.phases;},
+    init : (g,h) => {
+        G = g; H = h; G.phases = {...phases.phases};
+        G.choices = {
+            book : {
+                book : null,
+            },
+            awaken : {
+                unit : null,
+                place : null,
+            },
+            move : {
+                unit : null,
+                place : null,
+            },
+            fight : {
+                place : null,
+                enemy : null,
+            },
+            hire : {
+                place : null,
+            },
+            open : {
+                place : null,
+            },
+            summon : {
+                unit : null,
+                place : null,
+            },
+            steal : {
+                place : null,
+                unit : null,
+            },
+        }
+    },
 
     phases : {
         gather : {
@@ -505,6 +546,41 @@ let phases = {
                 },
             }
         },
+        awakenalt : {
+            lim,
+            start : 'unit',
+            req : f => G.player.units.filter( u => u.tier == 2 && u.place == '' && H[u.type].awakenreq()).length,
+            stages : {
+                unit : {
+                    next : 'place',
+                    options : f => G.player.units.filter( u => u.tier==2 && H[u.type].awakenreq()),
+                    moves : {
+                        choose : (np, c) => {
+                            if (np == 'unit' && G.player.units.filter( u => u.tier==2 && H[u.type].awakenreq()).includes(c)) {
+                                G.choices.awaken.unit = c
+                                endStage()
+                            }
+                        },
+                        done : f => {
+                            endPhase()
+                        }
+                    },
+                },
+                place : {
+                    options : f => H[G.choices.awaken.unit.type].awakenplaces(),
+                    moves : {
+                        choose : (np, c) => {
+                            if (np == 'place' && H[G.choices.awaken.unit.type].awakenplaces().includes(c)) {
+                                G.choices.awaken.place = c
+                                G.choices.awaken.unit.place = c
+                                H[G.choices.awaken.unit.type].cost()
+                                G.forceRerender()
+                            }
+                        }
+                    },
+                },
+            }
+        },
         steal : {
             lim,
             start : 'place',
@@ -552,6 +628,26 @@ let phases = {
                                 G.player.faction.bookreqs = G.player.faction.bookreqs.filter( b => !b['waiting...'])
                                 G.player.faction.books = G.player.faction.books.filter( b => b != G.choices.book.book)
                                 G.player.faction.bookinit[c]()
+                                returnStage()
+                            }
+                        }
+                    },
+                },
+            }
+        },
+        altbook : {
+            start : 'book',
+            stages : {
+                book : {
+                    options : f => G.player.faction.books,
+                    moves : {
+                        choose : (np, c) => {
+                            if (np == 'book' && G.player.faction.books.includes(c) ) {
+                                G.choices.book.book = c
+                                G.player.books = [...G.player.books, c ]
+                                G.player.faction.bookreqs = G.player.faction.bookreqs.filter( b => b == 'waiting...')
+                                G.player.faction.books = G.player.faction.books.filter( b => b != G.choices.book.book)
+                                H[c]()
                                 returnStage()
                             }
                         }

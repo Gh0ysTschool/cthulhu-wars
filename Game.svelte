@@ -1,12 +1,37 @@
 <script lang="javascript">
     import Map from './Map.svelte'
-    import Actions from './Actions.svelte'
     import Player from './Player.svelte'
     import places from './places.js'
     import factions from './factions.js'
     import phases from './phases.js'
     import Unit from './Unit.svelte'
-import faction from './bg'
+    import faction from './bg'
+    let helpers = {
+        findPlyr : (name) => G.players.find( p => p.faction.name == name),
+        forceRerender : () => { console.log(G); G = G },
+        initGame : () => {
+            phases.init(G)
+            factions(G,phases)
+            G.players = Object.values(G.factions)
+            .map( f => ({ units:[],faction:f,doom:0,power:8,books:[],temp:{} }))
+            .map( p => {
+                p.units = Array(6).fill(null).map( u => unit('cult',p.faction.name,p.faction.start) )
+                p.units[2].gate=p.faction.start
+                places[p.faction.start].gate=1
+                p.faction.initUnits(p)
+                return p
+            })
+            G.turn = {lim:1,pi:G.players.indexOf(findPlyr('gc'))||0}
+            G.phase = 'action'
+            G.stage = 'start'
+        },
+        log:f=>JSON.stringify(G.phases),
+        push:f=>{firebase.database().ref('game/' + 1).set(JSON.stringify(G))},
+        pull:f=>{firebase.database().ref('game/' + 1).once('value').then(g=>G={...JSON.parse(g.val()),phases:G.phases})},
+        genId : () => {},
+        unit : ( type = '', owner = {}, place = '', cost = 0, fight = 0, tier = 0, gather = 0) => ({ id:genid(), type, owner, place, cost, fight, gather, tier, gate:0 })
+    }
+    window.H = helpers
     let findPlyr = (name) => G.players.find( p => p.faction.name == name)
     let forceRerender = f => {
         console.log(G)
@@ -15,45 +40,11 @@ import faction from './bg'
     let players, turn, phase, stage, choices, units, player
     let unit = ( type = '', owner = {}, place = '', cost = 0, fight = 0, tier = 0, gather = 0) => ({ id:genid(), type, owner, place, cost, fight, gather, tier, gate:0 })
     let G = {unit, choices, players, player, places, phases, turn, phase, stage, units, forceRerender}
-    G.choices = {
-        book : {
-            book : null,
-        },
-        awaken : {
-            unit : null,
-            place : null,
-        },
-        move : {
-            unit : null,
-            place : null,
-        },
-        fight : {
-            place : null,
-            enemy : null,
-        },
-        hire : {
-            place : null,
-        },
-        open : {
-            place : null,
-        },
-        summon : {
-            unit : null,
-            place : null,
-        },
-        steal : {
-            place : null,
-            unit : null,
-        },
-    }
-    
-    phases.init(G)
-    factions(G,phases)
-    let playerinit = ( faction='', units = [], doom=0, power=0 ) => ({ units,faction,doom,power,books:[],temp:{} })
-    let fmove = ({unit, place}) => { unit.place = place; unit.gate=0;}
+    phases.init(G,helpers)
+    factions(G,phases,helpers)
     let genid = f => nonce++
     let nonce = 0
-    G.players = Object.values(G.factions).map( f => playerinit(f))
+    G.players = Object.values(G.factions).map( f => ({ units:[],faction:f,doom:0,power:0,books:[],temp:{} }))
     G.players.map( p => {
         p.units = Array(6).fill(null).map( u => unit('cult',p.faction.name,p.faction.start) )
         p.units[2].gate=p.faction.start
@@ -62,23 +53,24 @@ import faction from './bg'
         p.faction.initUnits(p)
     })
     G.turn = {lim:1,pi:G.players.indexOf(G.players.find( p => p.faction.name == 'gc'))||0}
-    $: G.player = G.players[G.turn.pi%G.players.length]
-    $: G.units = G.players.reduce((acc,cur)=>[...acc,...cur.units],[])
     G.phase = 'action'
-    let actions = []
     G.stage = 'start'
+    let actions = []
     G.ritualtracks = {
         3:[5,6,7,8,9,10],
         4:[5,6,7,7,8,8,9,10],
         5:[5,6,6,7,7,8,8,9,9,10],
     }
     G.rituals = 0
-    $: G.ritualcost = G.ritualtracks[G.players.length][G.rituals]
     let choose = x => {}
-    $: actions = (G.stage == '') ? G.phases[G.phase]?.options()||[] : G.phases[G.phase].stages[G.stage]?.options()||[]
     let noop = (np,c) => {}
-    $: G.choose = ((G.stage == '') ? G.phases[G.phase]?.moves?.choose||noop : G.phases[G.phase].stages[G.stage]?.moves?.choose)||noop
     let click = action => f => G.choose(G.stage,action)
+
+    $: G.player = G.players[G.turn.pi%G.players.length]
+    $: G.units = G.players.reduce((acc,cur)=>[...acc,...cur.units],[])
+    $: G.ritualcost = G.ritualtracks[G.players.length][G.rituals]
+    $: actions = (G.stage == '') ? G.phases[G.phase]?.options()||[] : G.phases[G.phase].stages[G.stage]?.options()||[]
+    $: G.choose = ((G.stage == '') ? G.phases[G.phase]?.moves?.choose||noop : G.phases[G.phase].stages[G.stage]?.moves?.choose)||noop
     
     let firebaseConfig = {
         apiKey: "AIzaSyAtutNxHpxtCJi3EUB3irfhNiTfoMu1zLY",
