@@ -27,7 +27,7 @@ let faction = (g,p) => {
     let name = 'bg'
     let units = []
     let addUnit = (u,p) => {
-        u.owner = p
+        u.owner = p.faction.name
         p.units = [...p.units,u]
     }
     let awakenshub = {
@@ -38,10 +38,10 @@ let faction = (g,p) => {
     let initUnits = p => {
         p.units = [
             ...p.units,
-            {...G.unit("Shub Nigur'rath",p,'',8,()=>p.units.filter( u => u.type == 'cult').length,2),...awakenshub},
-            ...[0,1,].map( f=> G.unit('Ghoul',p,'',1,0,1)),
-            ...[0,1,2,3].map( f=> G.unit('Fungi',p,'',2,1,1)),
-            ...[0,1,2].map( f=> G.unit('Dark Young',p,'',3,2,1,1)),
+            {...G.unit("Shub Nigur'rath",name,'',8,()=>p.units.filter( u => u.type == 'cult').length,2),...awakenshub},
+            ...[0,1,].map( f=> G.unit('Ghoul',name,'',1,0,1)),
+            ...[0,1,2,3].map( f=> G.unit('Fungi',name,'',2,1,1)),
+            ...[0,1,2].map( f=> G.unit('Dark Young',name,'',3,2,1,1)),
         ]
     }
     

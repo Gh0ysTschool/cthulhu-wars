@@ -1,16 +1,16 @@
 let G, lim = 1, unlim = 1
-
+let findPlyr = (name) => G.players.find( p => p.faction.name == name)
 let stealableUnitsIn = (p) => {
     let tmpunits = []
         tmpunits = G.units.filter( u => u.place == p )
         let dom = {}
         G.players.map( p => dom[p.faction.name] = 0)
         tmpunits.map( u => 
-            dom[u.owner.faction.name] = (dom[u.owner.faction.name] < u.tier) 
-            ? u.tier : dom[u.owner.faction.name]
+            dom[findPlyr(u.owner).faction.name] = (dom[findPlyr(u.owner).faction.name] < u.tier) 
+            ? u.tier : dom[findPlyr(u.owner).faction.name]
         )
         tmpunits = tmpunits.filter( u => 
-            u.tier == 0 && dom[u.owner.faction.name] < dom[G.player.faction.name] 
+            u.tier == 0 && dom[findPlyr(u.owner).faction.name] < dom[G.player.faction.name] 
         )
         return tmpunits
 }
@@ -252,7 +252,7 @@ let phases = {
         fight : {
             lim,
             start : 'place',
-            req : f=>Object.keys(G.places).find( p => G.player.units.find( u => u.fight != 0 && u.place == p) && G.units.find( u => u.place == p && u.owner.faction.name != G.player.faction.name ) ),
+            req : f=>Object.keys(G.places).find( p => G.player.units.find( u => u.fight != 0 && u.place == p) && G.units.find( u => u.place == p && findPlyr(u.owner).faction.name != G.player.faction.name ) ),
             init : f => G.choices.fight.player = G.players[G.turn.pi],
             stages : {
                 place : {
@@ -260,7 +260,7 @@ let phases = {
                     options : f => Object.keys(G.places).filter( p => G.player.units.filter( u => u.place == p && u.fight != 0 ).length ),
                     moves : {
                         choose : (np, c) => {
-                            if (np == 'place' && Object.keys(G.places).filter( p => G.player.units.find( u => u.fight != 0 && u.place == p) && G.units.find( u => u.place == p && u.owner.faction.name != G.player.faction.name ) ).includes(c) ) {
+                            if (np == 'place' && Object.keys(G.places).filter( p => G.player.units.find( u => u.fight != 0 && u.place == p) && G.units.find( u => u.place == p && findPlyr(u.owner).faction.name != G.player.faction.name ) ).includes(c) ) {
                                 G.choices.fight.place = c
                                 endStage()
                             }

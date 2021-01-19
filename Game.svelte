@@ -7,7 +7,7 @@
     import phases from './phases.js'
     import Unit from './Unit.svelte'
 import faction from './bg'
-    
+    let findPlyr = (name) => G.players.find( p => p.faction.name == name)
     let forceRerender = f => {
         console.log(G)
         G = G
@@ -55,7 +55,7 @@ import faction from './bg'
     let nonce = 0
     G.players = Object.values(G.factions).map( f => playerinit(f))
     G.players.map( p => {
-        p.units = Array(6).fill(null).map( u => unit('cult',p,p.faction.start) )
+        p.units = Array(6).fill(null).map( u => unit('cult',p.faction.name,p.faction.start) )
         p.units[2].gate=p.faction.start
         places[p.faction.start].gate=1
         p.power = 8
@@ -141,7 +141,7 @@ import faction from './bg'
             ul(style='padding:0')
                 +each('actions as action')
                     +if('G.stage.includes("unit")')
-                        li(on:click='{click(action)}' style='color:{action.owner.faction.color}') {action.type} in {action.place||"pool"}
+                        li(on:click='{click(action)}' style='color:{findPlyr(action.owner).faction.color}') {action.type} in {action.place||"pool"}
                         +elseif('G.stage.includes("player") || G.stage.includes("enemy") || G.stage.includes("faction")')
                             li(on:click='{click(action)}' style='color:{action.faction.color}') {action.faction.name}
                             +else

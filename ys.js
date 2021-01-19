@@ -1,5 +1,6 @@
 let G
 let phs
+let findPlyr = (name) => G.players.find( p => p.faction.name == name)
 let faction = (g,p) => {
     G = g;
     phs = p
@@ -28,7 +29,7 @@ let faction = (g,p) => {
     let name = 'ys'
     let units = []
     let addUnit = (u,p) => {
-        u.owner = p
+        u.owner = p.faction.name
         p.units = [...p.units,u]
     }
     let awakenking = {
@@ -44,10 +45,10 @@ let faction = (g,p) => {
     let initUnits = p => {
         p.units = [
             ...p.units,
-            {...G.unit("Hastur",p,'',10,f=>G.ritual.cost,2),...awakenhast},
-            {...G.unit("King in Yellow",p,'',4,0,2),...awakenking},
-            ...[0,1,2,3,4,5].map( f=> G.unit('Undead',p,'',1,f=>G.units.filter( u => u.place == G.choices.combat.place && u.type == "Undead").length-1,1)),
-            ...[0,1,2,3].map( f=> G.unit("Byakhee",p,'',2,f=>G.units.filter( u => u.place == G.choices.combat.place && u.type == "Bya'khee").length+1,1)),
+            {...G.unit("Hastur",name,'',10,f=>G.ritual.cost,2),...awakenhast},
+            {...G.unit("King in Yellow",name,'',4,0,2),...awakenking},
+            ...[0,1,2,3,4,5].map( f=> G.unit('Undead',name,'',1,f=>G.units.filter( u => u.place == G.choices.combat.place && u.type == "Undead").length-1,1)),
+            ...[0,1,2,3].map( f=> G.unit("Byakhee",name,'',2,f=>G.units.filter( u => u.place == G.choices.combat.place && u.type == "Bya'khee").length+1,1)),
         ]
     }
 
@@ -144,15 +145,15 @@ let zingaya = () => {
     G.choices.zingaya = {place:null}
     phs.addPhase('shriek',{
         lim,
-        req : f => G.player.faction.name == 'ys' && G.player.units.find( u => u.type == 'Undead' && u.place == '' ) && G.player.units.find( u => u.type == 'Undead' && G.places[u.place] && G.units.find( uu => uu.owner.faction.name != 'ys' && uu.type == 'cult' && uu.place == u.place) ) && G.player.power > 0,
+        req : f => G.player.faction.name == 'ys' && G.player.units.find( u => u.type == 'Undead' && u.place == '' ) && G.player.units.find( u => u.type == 'Undead' && G.places[u.place] && G.units.find( uu => findPlyr(uu.owner).faction.name != 'ys' && uu.type == 'cult' && uu.place == u.place) ) && G.player.power > 0,
         start : 'place',
         stages: {               
             place : {
                 next : 'unit',
-                options : f=> Array.from( new Set( G.player.units.find( u => u.type == 'Undead' && G.places[u.place] && G.units.find( uu => uu.owner.faction.name != 'ys' && uu.type == 'cult' && uu.place == u.place) ).map( u => u.place ) ) ),
+                options : f=> Array.from( new Set( G.player.units.find( u => u.type == 'Undead' && G.places[u.place] && G.units.find( uu => findPlyr(uu.owner).faction.name != 'ys' && uu.type == 'cult' && uu.place == u.place) ).map( u => u.place ) ) ),
                 moves : {
                     choose : (np, c) => {
-                        if ( ( np == 'place' || np == 'zingaya' ) && Array.from( new Set( G.player.units.find( u => u.type == 'Undead' && G.places[u.place] && G.units.find( uu => uu.owner.faction.name != 'ys' && uu.type == 'cult' && uu.place == u.place) ).map( u => u.place ) ) ).includes(c) ) {
+                        if ( ( np == 'place' || np == 'zingaya' ) && Array.from( new Set( G.player.units.find( u => u.type == 'Undead' && G.places[u.place] && G.units.find( uu => findPlyr(uu.owner).faction.name != 'ys' && uu.type == 'cult' && uu.place == u.place) ).map( u => u.place ) ) ).includes(c) ) {
                             G.choices.zingaya.place = c
                             phs.endPhase()
                         }
@@ -160,10 +161,10 @@ let zingaya = () => {
                 }
             },              
             unit : {
-                options : f=> G.units.filter( u => u.owner.faction.name != 'ys' && u.type == 'cult' && u.place == G.choices.zingaya.place ),
+                options : f=> G.units.filter( u => findPlyr(u.owner).faction.name != 'ys' && u.type == 'cult' && u.place == G.choices.zingaya.place ),
                 moves : {
                     choose : (np, c) => {
-                        if ( ( np == 'unit' || np == 'zingaya' ) && G.units.filter( u => u.owner.faction.name != 'ys' && u.type == 'cult' && u.place == G.choices.zingaya.place ).includes(c) ) {
+                        if ( ( np == 'unit' || np == 'zingaya' ) && G.units.filter( u => findPlyr(u.owner).faction.name != 'ys' && u.type == 'cult' && u.place == G.choices.zingaya.place ).includes(c) ) {
                             G.player.units.find( u => u.type == 'Undead' && u.place == '' ).place = c.place
                             G.player.power--
                             c.place = ''
@@ -196,10 +197,10 @@ let desecrate = () => {
                 },
             },              
             unit : {
-                options : f=> G.player.units.filter( u => u.owner.faction.name != 'ys' && u.cost <= 2 && u.place == '' ),
+                options : f=> G.player.units.filter( u => findPlyr(u.owner).faction.name != 'ys' && u.cost <= 2 && u.place == '' ),
                 moves : {
                     choose : (np, c) => {
-                        if ( ( np == 'unit' || np == 'desecrate' ) && G.player.units.filter( u => u.owner.faction.name != 'ys' && u.cost <= 2 && u.place == '' ).includes(c) ) {
+                        if ( ( np == 'unit' || np == 'desecrate' ) && G.player.units.filter( u => findPlyr(u.owner).faction.name != 'ys' && u.cost <= 2 && u.place == '' ).includes(c) ) {
                             c.place = G.player.units.find( u => u.type = 'King in Yellow' )
                             phs.endStage()
                         }

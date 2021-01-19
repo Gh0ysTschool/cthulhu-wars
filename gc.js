@@ -1,5 +1,7 @@
 let G
 let phs
+let findPlyr = (name) => G.players.find( p => p.faction.name == name)
+
 let faction = (g,p) => {
     G = g;
     phs = p
@@ -29,7 +31,7 @@ let faction = (g,p) => {
     let name = 'gc'
     let units = []
     let addUnit = (u,p) => {
-        u.owner = p
+        u.owner = p.faction.name
         p.units = [...p.units,u]
     }
     let cost = 10
@@ -41,10 +43,10 @@ let faction = (g,p) => {
     let initUnits = p => {
         p.units = [
             ...p.units,
-            {...G.unit("Great Cthulhu",p,'',10,6,2),...awakencthu},
-            ...[0,1,2,3].map( f=> G.unit('Deep One',p,'',1,1,1)),
-            ...[0,1].map( f=> G.unit('Shoggoth',p,'',2,2,1)),
-            ...[0,1].map( f=> G.unit('Starspawn',p,'',3,3,1,1)),
+            {...G.unit("Great Cthulhu",name,'',10,6,2),...awakencthu},
+            ...[0,1,2,3].map( f=> G.unit('Deep One',name,'',1,1,1)),
+            ...[0,1].map( f=> G.unit('Shoggoth',name,'',2,2,1)),
+            ...[0,1].map( f=> G.unit('Starspawn',name,'',3,3,1,1)),
         ]
     }
     devour()
@@ -99,14 +101,14 @@ let submerge = () => phs.addPhase('submerge', {
 let dream = () => phs.addPhase('dream', {
     lim,
     start : 'place',
-    req: f => G.player.power > 1 && G.player.units.filter( u => u.type == 'cult' && u.place == '' ).length && G.units.filter( u => u.type == 'cult' && G.places[u.place] && u.owner.faction.name != 'gc' ).length,
+    req: f => G.player.power > 1 && G.player.units.filter( u => u.type == 'cult' && u.place == '' ).length && G.units.filter( u => u.type == 'cult' && G.places[u.place] && findPlyr(u.owner).faction.name != 'gc' ).length,
     stages: {               
         place : {
             next : 'player',
-            options : f => Object.keys(G.places).filter( p => G.units.find( u => u.type == cult && u.owner.faction.name != 'gc' ) ),
+            options : f => Object.keys(G.places).filter( p => G.units.find( u => u.type == cult && findPlyr(u.owner).faction.name != 'gc' ) ),
             moves : {
                 choose : (np, c) => {
-                    if ((np == 'place' || np == 'dream') && Object.keys(G.places).filter( p => G.units.find( u => u.type == cult && u.owner.faction != 'gc' ) ).includes(c)) {
+                    if ((np == 'place' || np == 'dream') && Object.keys(G.places).filter( p => G.units.find( u => u.type == cult && findPlyr(u.owner).faction != 'gc' ) ).includes(c)) {
                         G.choices.dream.places = c
                         phs.endStage()
                     }
@@ -178,7 +180,7 @@ let devolve = () => {
     dvstage.unit.init = f => { 
         if (G.player.faction.name != 'gc' 
             && G.units.find( u => 
-            u.owner.faction.name != 'gc' 
+            findPlyr(u.owner).faction.name != 'gc' 
             && (u.combat || u.tier)
             && G.players.find( p => p.faction.name=='gc' ).units.filter( u => !u.tier).map(u => u.place).includes(u.place)) )
                 phs.interuptStage('action','devolveunit',G.players.indexOf(G.players.find( p => p.faction.name=='gc')))
@@ -217,7 +219,7 @@ let devour = () => {
 let yhanthlei = () => {
     let yhstage = {
         init : f=>{
-            G.players.find( p => p.faction.name == 'gc' ).power += G.player.power += oceans.filter( o => G.places[o].gate && G.units.filter( u => u.place == o && u.gate && u.owner.faction.name != 'gc' ).length ).length
+            G.players.find( p => p.faction.name == 'gc' ).power += G.player.power += oceans.filter( o => G.places[o].gate && G.units.filter( u => u.place == o && u.gate && findPlyr(u.owner).faction.name != 'gc' ).length ).length
             phs.endStage()
         },
         options : f=>[],

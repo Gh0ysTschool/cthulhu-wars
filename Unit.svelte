@@ -6,8 +6,8 @@
     import {onMount} from 'svelte'
     let el
     onMount(x=>{
-        let imgurl = ((unit.type=='cult') ? unit.owner.faction.name : '') + unit.type.toLowerCase().replaceAll("'",'').split(' ').join('')
-        el.style.background = unit.owner.faction.color + ` url(./${imgurl}.webp) center center`
+        let imgurl = ((unit.type=='cult') ? unit.owner : '') + unit.type.toLowerCase().replaceAll("'",'').split(' ').join('')
+        el.style.background = {'bg':'red','gc':'green','ys':'yellow','cc':'blue'}[unit.owner] + ` url(./${imgurl}.webp) center center`
         el.style.backgroundSize = '100% 100%'
     })
     let click = e => {

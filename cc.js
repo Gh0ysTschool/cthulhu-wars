@@ -1,5 +1,6 @@
 let G
 let phs
+let findPlyr = (name) => G.players.find( p => p.faction.name == name)
 let faction = (g,p) => {
     G = g;
     phs = p
@@ -27,7 +28,7 @@ let faction = (g,p) => {
     let name = 'cc'
     let units = []
     let addUnit = (u,p) => {
-        u.owner = p
+        u.owner = p.faction.name
         p.units = [...p.units,u]
     }
     
@@ -40,10 +41,10 @@ let faction = (g,p) => {
     let initUnits = p => {
         p.units = [
             ...p.units,
-            {...G.unit("Nyarlathotap",p,'',10,()=>p.books.length + G.choices.fight.enemy.books.length,2),...awakennarl},
-            ...[0,1,3].map( f=> G.unit('Nightgaunt',p,'',1,0,1)),
-            ...[0,1,2].map( f=> G.unit('Flying Polyp',p,'',2,1,1)),
-            ...[0,1].map( f=> G.unit('Hunting Horror',p,'',3,2,1)),
+            {...G.unit("Nyarlathotap",name,'',10,()=>p.books.length + G.choices.fight.enemy.books.length,2),...awakennarl},
+            ...[0,1,3].map( f=> G.unit('Nightgaunt',name,'',1,0,1)),
+            ...[0,1,2].map( f=> G.unit('Flying Polyp',name,'',2,1,1)),
+            ...[0,1].map( f=> G.unit('Hunting Horror',name,'',3,2,1)),
         ]
         flight()
     }
@@ -173,8 +174,8 @@ let madness = () => {
 let emissary = () => phs.addStage('emissary',{
     init : f => {
         G.players.find( p => p.faction.name == 'cc' ).units.find( u => u.type == 'Nyarlathtap' ).invulnerable = (
-            !G.choices.fight.enemy.units.find( u => u.owner.faction.name != 'cc' && u.tier == 2 && u.place == G.choices.fight.place) ||
-            !G.choices.fight.player.units.find( u => u.owner.faction.name != 'cc' && u.tier == 2 && u.place == G.choices.fight.place)
+            !G.choices.fight.enemy.units.find( u => findPlyr(u.owner).faction.name != 'cc' && u.tier == 2 && u.place == G.choices.fight.place) ||
+            !G.choices.fight.player.units.find( u => findPlyr(u.owner).faction.name != 'cc' && u.tier == 2 && u.place == G.choices.fight.place)
         )
         phs.endStage()
     },
