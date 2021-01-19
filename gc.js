@@ -66,7 +66,7 @@ let lim = 1, unlim = 1, req = f => true, init = f => {}
 let emerge = () => phs.addPhase( 'emerge',{
     lim,
     start : 'place',
-    req: f => G.player.units.find( u => u.type == 'Great Cthulhu').place == 'submerged',
+    req: f => G.player.faction.name == 'gc' && G.player.units.find( u => u.type == 'Great Cthulhu').place == 'submerged',
     stages: {               
         place : {
             options : f => Object.keys(G.places),
@@ -84,7 +84,7 @@ let emerge = () => phs.addPhase( 'emerge',{
 let submerge = () => phs.addPhase('submerge', {
     lim,
     start : 'unit',
-    req: f => G.player.units.find( u => u.type == 'Great Cthulhu' && G.places[u.place] ),
+    req: f =>  G.player.faction.name == 'gc' && G.player.units.find( u => u.type == 'Great Cthulhu' && G.places[u.place] ),
     stages: {               
         unit : {
             options : f => G.player.units.filter( u => u.place = G.player.units.find( u => u.type == 'Greath Cthulhu').place ),
