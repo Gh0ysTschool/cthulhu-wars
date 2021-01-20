@@ -2,6 +2,7 @@
     import { createEventDispatcher } from 'svelte';
     import Unit from './Unit.svelte'
     import Gate from './Gate.svelte'
+    import Glyphs from './Glyphs.svelte'
     import {onMount} from 'svelte'
     export let units = []
     export let choose
@@ -179,5 +180,6 @@
                     div(in:receive="{{key: unit.id}}" out:send="{{key: unit.id}}" animate:flip="{{duration: 200}}")
                         Unit(unit='{unit}' '{choose}')
                 Gate(places='{places}' name=loc '{choose}')
+                Glyphs(places='{places}' name=loc '{choose}')
     .grid 
 </template>

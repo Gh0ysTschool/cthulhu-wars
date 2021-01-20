@@ -197,7 +197,7 @@ let desecrate = () => {
     let roll
     phs.addPhase('desecrate',{
         lim,
-        req : f => G.player.faction.name == 'ys' && G.player.units.find( u => u.type == 'King in Yellow' && G.state.places[u.place] ) && !G.state.places[G.player.units.find( u => u.type == 'King in Yellow' && G.state.places[u.place] ).place].glyphs.includes('desecration') && G.player.power > 1,
+        req : f => G.player.faction.name == 'ys' && G.player.units.find( u => u.type == 'King in Yellow' && G.state.places[u.place] ) && !G.state.places[G.player.units.find( u => u.type == 'King in Yellow' && !G.state.places[u.place] ).place].glyphs.includes('desecration') && G.player.power > 1,
         start : 'roll',
         stages: {               
             roll : {

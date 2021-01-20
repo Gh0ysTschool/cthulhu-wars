@@ -118,7 +118,7 @@
 <!-- prettier-ignore -->
 
 <template lang="pug">
-    .tooltip(class='hidden' style='position:absolute;background:black;width:10em;z-index:100') wubwub
+    .tooltip(class='hidden' style='position:absolute;background:black;width:10em;z-index:100') 
     Map(choose='{H.choose}' units='{G.units}' places='{G.state.places}')
     .hud
         +each('G.state.players as player (player.faction.name)')
