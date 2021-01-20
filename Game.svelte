@@ -18,7 +18,7 @@
     }
     firebase.initializeApp(firebaseConfig);
 
-    let client = new URLSearchParams(window.location.search).get('faction')||'observer'
+    let client = new URLSearchParams(window.location.search).get('faction')||'hotseat'
     let helpers = {
         'waiting...':f=>false,
         findPlyr : (name) => G.state.players.find( p => p.faction.name == name),
@@ -67,7 +67,7 @@
     let actions = []
     let choose = x => {}
     let noop = (np,c) => {}
-    let clientCheck = (func) => () => {if(G.player.faction.name==client) func()}
+    let clientCheck = (func) => () => {if(G.player.faction.name==client || client=='hotseat' ) func()}
     let click = action => f => {if (G.player.faction.name==client) H.choose(G.state.stage,action) }
 
     $: G.player = G.state.players[G.state.turn.pi%G.state.players.length]
