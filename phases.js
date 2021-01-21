@@ -58,7 +58,6 @@ let interuptStage = (inphase,instage,inpi) => {
 //     }))
 let checkbooks = () => 
     G.state.players.map( p => p.faction.bookreqs.map( (l,i) => {
-        console.log(l,H[l])
         if (H[l]()){
             p.faction.bookreqs[i] = 'waiting...'
             interuptStage('book','book',G.state.players.indexOf(p))
@@ -195,6 +194,7 @@ let phases = {
                     moves : {
                         choose : (np,c) => {
                             let p = G.state.players[G.state.turn.pi%G.state.players.length]
+                            console.log(c)
                             if( ['keep turn order','reverse turn order'].includes(c) ) {
                                 if (c == 'reverse turn order') {
                                     G.state.players = G.state.players.reverse()
@@ -241,7 +241,7 @@ let phases = {
                     options : f => Object.keys(G.phases).filter( p => (G.phases[p].unlim || (G.phases[p].lim && G.state.turn.lim)) && (!G.phases[p].req || G.phases[p].req())),
                     moves : {
                         choose : (np,c) => {
-                            console.log('choosen',np,c);if (np == 'start') setPhase(c)},
+                            if (np == 'start') setPhase(c)},
                         done : (np,c) => { G.player.power = 0; endTurn(); }
                     }
                 }

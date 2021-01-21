@@ -68,7 +68,7 @@
     let choose = x => {}
     let noop = (np,c) => {}
     let clientCheck = (func) => () => {if(G.player.faction.name==client || client=='hotseat' ) func()}
-    let click = action => f => {if (G.player.faction.name==client) H.choose(G.state.stage,action) }
+    let click = action => f => {if (G.player.faction.name==client || client=='hotseat') H.choose(G.state.stage,action) }
 
     $: G.player = G.state.players[G.state.turn.pi%G.state.players.length]
     $: G.units = G.state.players.reduce((acc,cur)=>[...acc,...cur.units],[])
