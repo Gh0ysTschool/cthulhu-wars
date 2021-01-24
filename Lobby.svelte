@@ -1,5 +1,6 @@
 <script lang="javascript">
     import Game from './Game.svelte'
+import Gate from './Gate.svelte';
     let firebaseConfig = {
         apiKey: "AIzaSyAtutNxHpxtCJi3EUB3irfhNiTfoMu1zLY",
         authDomain: "cw-wars.firebaseapp.com",
@@ -10,21 +11,25 @@
         appId: "1:311965598360:web:b4f0ff76188930035e86ed"
     }
     firebase.initializeApp(firebaseConfig);
-    let newgame=()=>{page='Game'},join=()=>{page='Game'},off=()=>{page='Game'},back=()=>{},page=''
+    let promise = firebase.database().ref("game").get()
+    let newgame=()=>{page='Game'},join=(key)=>{page=key},off=()=>{page='Game'},back=()=>{},page='menu'
 </script>
 
 <style lang="stylus">
       
 </style>
-
+{#if (page=='menu') }
+    <ul>
+        {#await promise then value}
+            {#each Object.keys(value.val()) as key}
+            <li on:click={f=>join(key)}> {key}</li>
+            {/each}
+        {/await}
+    </ul>
+{:else}
+    <Game {page}></Game>
+{/if}
 <!-- prettier-ignore -->
 <template lang="pug">
-    +if('page=="Game"')
-        Game
-        +else
-            button(on:click='{back}') back
-            ul
-                li(on:click='{newgame}') new game
-                li(on:click='{join}') join game
-                li(on:click='{off}') offline
+
 </template>
