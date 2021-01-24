@@ -269,7 +269,7 @@ let phases = {
                     },
                     place : {
                         next : 'unit',
-                        options : f => (G.state.choices.move.unit.speed == 2 ) ? Array.from( new Set(G.state.places[G.state.choices.move.unit.place].adjacent.reduce( (acc,p) => acc.concat(G.state.places[p].adjacent), []) ) ) : G.state.places[G.state.choices.move.unit.place].adjacent,
+                        options : f => (G.state.choices.move?.unit?.speed == 2 ) ? Array.from( new Set(G.state.places[G.state.choices.move.unit.place].adjacent.reduce( (acc,p) => acc.concat(G.state.places[p].adjacent), []) ) ) : G.state.places[G.state.choices.move.unit.place].adjacent,
                         moves : {
                             choose : (np, c) => {
                                 if (np == 'place' && ((G.state.choices.move.unit.speed == 2 ) ? Array.from( new Set(G.state.places[G.state.choices.move.unit.place].adjacent.reduce( (acc,p) => acc.concat(G.state.places[p].adjacent), []) ) ) : G.state.places[G.state.choices.move.unit.place].adjacent).includes(c)) {
@@ -278,8 +278,6 @@ let phases = {
                                     G.state.choices.move.unit.place = c
                                     G.state.choices.move.unit.moved = 1
                                     G.player.power--
-                                    G.state.choices.move.unit = null
-                                    G.state.choices.move.place = null
                                     H.forceRerender()
                                     if (G.player.power == 0) {
                                         endPhase()
