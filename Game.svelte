@@ -6,18 +6,6 @@
     import phases from './phases.js'
     import Unit from './Unit.svelte'
     import faction from './bg'
-    
-    let firebaseConfig = {
-        apiKey: "AIzaSyAtutNxHpxtCJi3EUB3irfhNiTfoMu1zLY",
-        authDomain: "cw-wars.firebaseapp.com",
-        databaseURL: "https://cw-wars-default-rtdb.firebaseio.com",
-        projectId: "cw-wars",
-        storageBucket: "cw-wars.appspot.com",
-        messagingSenderId: "311965598360",
-        appId: "1:311965598360:web:b4f0ff76188930035e86ed"
-    }
-    firebase.initializeApp(firebaseConfig);
-
     let client = new URLSearchParams(window.location.search).get('faction')||'hotseat'
     let helpers = {
         'waiting...':f=>false,
