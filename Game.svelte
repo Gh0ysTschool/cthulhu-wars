@@ -6,7 +6,7 @@
     import phases from './phases.js'
     import Unit from './Unit.svelte'
     import faction from './bg'
-    export let page = '1'
+    export let page = '1', size = 1
     let client = new URLSearchParams(window.location.search).get('faction')||'hotseat'
     let helpers = {
         'waiting...':f=>false,
@@ -31,6 +31,10 @@
             G.state.turn = {lim:1,pi:G.state.players.indexOf(helpers.findPlyr('gc'))||0}
             G.state.phase = 'action'
             G.state.stage = 'start'
+            if (page=='newgame') {
+                page = size
+                H.push()
+            }
         },
         log:f=>console.log(G,H,phases),
         push:f=>{firebase.database().ref('game/' + page).set(JSON.stringify({...G.state,sender:client}))},

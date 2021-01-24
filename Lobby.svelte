@@ -11,15 +11,19 @@ import Gate from './Gate.svelte';
         appId: "1:311965598360:web:b4f0ff76188930035e86ed"
     }
     firebase.initializeApp(firebaseConfig);
+    let size
     let promise = firebase.database().ref("game").get()
-    let newgame=()=>{page='Game'},join=(key)=>{page=key},off=()=>{page='Game'},back=()=>{},page='menu'
+    promise.then( v => size = v.val().length)
+    let newgame=()=>{page='newgame'},join=(key)=>{page=key},off=()=>{page='Game'},back=()=>{},page='menu'
 </script>
 
 <style lang="stylus">
       
 </style>
 {#if (page=='menu') }
+    <span>games:</span>
     <ul>
+        <li on:click={newgame}>new game</li>
         {#await promise then value}
             {#each Object.keys(value.val()) as key}
             <li on:click={f=>join(key)}> {key}</li>
@@ -27,7 +31,7 @@ import Gate from './Gate.svelte';
         {/await}
     </ul>
 {:else}
-    <Game {page}></Game>
+    <Game {page} {size}></Game>
 {/if}
 <!-- prettier-ignore -->
 <template lang="pug">
