@@ -65,7 +65,7 @@
 
 <!-- prettier-ignore -->
 <template lang="pug">
-    .player2(bind:this='{el}' on:click='{click}') {player.faction.name} | dm {player.doom} | pw {player.power} | sb {player.books.length}
+    .player2(bind:this='{el}' on:click='{click}') {player.faction.name} | dm {player.doom} | pw {player.power} | sb {player.books.length}| es {player.signs.length}
         ul.details 
             +each ('player.faction.bookreqs as book')
                 li {book}
