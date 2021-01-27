@@ -19,7 +19,7 @@ let calcDamage = (p) => {
     p.temp.phase.kills = r.filter( e => e > 4 ).length
     p.temp.phase.pains = r.filter( e => e < 5 && e > 2).length
 }
-let roll = ( dice ) => Math.floor((Math.random() * 6) + 1)
+let roll = ( dice=1 ) => Array.from(dice).fill(0).map( v => Math.floor((Math.random() * 6) + 1) ).reduce((acc,cur)=>acc+cur,0)
 let endTurn = t => { 
     G.state.players.map( p => p.temp.turn = {} )
     if (!G.state.players.filter( p => p.power ).length) 
