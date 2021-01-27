@@ -106,7 +106,7 @@ let harbinger = () => {
         moves : {
             choose : (np,c) => {
                 if ( !harbinged.map( h => ['+2 signs',h.cost/2+' power']).includes(c)) return
-                if ( c.includes('+2 signs')) G.player.signs++
+                if ( c.includes('+2 signs')) {G.player.signs.push((phs.roll()%3)+1);G.player.signs.push((phs.roll()%3)+1)}
                 if ( c.includes( ' power ')) G.player.power += Number(c.split('')[0])
                 harbinged = harbinged.filter( u => u.type != c.split('').slice(8).join('') )
                 if (!harbinged.length) { phs.returnStage(); if (G.state.stage == 'harbresolve') phs.endStage() }

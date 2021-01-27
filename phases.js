@@ -221,7 +221,7 @@ let phases = {
                             G.player.ritual = 0
                             if (c == 'ritual' && G.player.power >= G.ritualcost) {
                                 G.player.units.filter( u => u.gate ).map( f => G.player.doom++)
-                                G.player.units.filter( u => u.tier==2 ).map( f => G.player.signs++)
+                                G.player.units.filter( u => u.tier==2 ).map( f => G.player.signs.push((phs.roll()%3)+1))
                                 G.player.power -= G.ritualcost
                                 G.rituals++
                             }

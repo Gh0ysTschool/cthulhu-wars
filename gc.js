@@ -51,7 +51,7 @@ let faction = (g,p,h) => {
     let awakencthu = {
         awakenplaces: () => [G.player.faction.start],
         awakenreq: () => G.player.power > 9 && G.state.places[G.player.faction.start].gate,
-        cost: () => { G.player.power-=cost; cost = 4; G.player.signs++; phs.endStage(); },
+        cost: () => { G.player.power-=cost; cost = 4; G.player.signs.push((phs.roll()%3)+1); phs.endStage(); },
     }
     H['Great Cthulhu']=awakencthu
     let initUnits = p => {

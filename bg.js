@@ -296,7 +296,7 @@ let blood = () => {
             choose : (np,c) => {
                 if ( (np == 'unit' || np == 'bloodunit') && G.player.units.filter( u => u.type == 'cult' && Object.keys(G.state.places).includes(u.place) ) ) {
                     c.place = ''
-                    G.player.signs++
+                    G.player.signs.push((phs.roll()%3)+1)
                     phs.returnStage()
                 }
             }
