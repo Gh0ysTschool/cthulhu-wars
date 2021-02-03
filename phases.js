@@ -49,13 +49,6 @@ let interuptStage = (inphase,instage,inpi) => {
     G.state.turn.pi = inpi
     H.forceRerender()
 }
-// let checkbooks = () => 
-//     G.state.players.map( p => p.faction.bookreqs.map( (l,i) => {
-//         if (Object.values(l)[0]()){
-//             p.faction.bookreqs[i] = {'waiting...':f=>false}
-//             interuptStage('book','book',G.state.players.indexOf(p))
-//         }
-//     }))
 let checkbooks = () => 
     G.state.players.map( p => p.faction.bookreqs.map( (l,i) => {
         if (H[l]()){
@@ -437,7 +430,7 @@ let phases = {
             req : f => G.player.units.find( u => u.type == 'cult' && u.place == '' ),
             stages : {
                 place : {
-                    options : f => Array.from( new Set( G.player.units.map( u => u.place ) ) ),
+                    options : f => Array.from( new Set( G.player.units.filter( u => G.places[u.place] ).map( u => u.place ) ) ),
                     moves : {
                         choose : (np, c) => {
                             if (np == 'place' && G.player.units.map( u => u.place ).includes(c) ) {
