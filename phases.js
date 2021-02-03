@@ -94,7 +94,11 @@ let setPhase = p => {
     phaseInit()
     H.forceRerender()
 }
+let checkWin = f => {
+    return G.players.find( p => p.doom > 29 ) || G.state.rituals >= G.ritualtrack[G.state.players.length].length
+}
 let endPhase = p => {
+    if (checkWin()) {setPhase('win');return;}
     G.state.players.map( p => p.temp.phase = {} )
     if (G.phases[G.state.phase].lim) 
         G.state.turn.lim--
@@ -223,7 +227,7 @@ let phases = {
                                 G.player.units.filter( u => u.gate ).map( f => G.player.doom++)
                                 G.player.units.filter( u => u.tier==2 ).map( f => G.player.signs.push((phs.roll()%3)+1))
                                 G.player.power -= G.ritualcost
-                                G.rituals++
+                                G.staterituals++
                             }
                             G.state.turn.pi++        
                             if (!G.state.players.filter( p => p.ritual).length) endStage()

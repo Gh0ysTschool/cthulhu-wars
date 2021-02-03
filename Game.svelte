@@ -18,7 +18,7 @@
                 4:[5,6,7,7,8,8,9,10],
                 5:[5,6,6,7,7,8,8,9,9,10],
             }
-            G.rituals = 0
+            G.state.rituals = 0
             phases.init(G,helpers)
             factions(G,phases,helpers)
             G.state.players = Object.values(G.factions).map( f => ({ units:[],faction:f,doom:0,power:8,books:[],temp:{} }))
@@ -65,7 +65,7 @@
 
     $: G.player = G.state.players[G.state.turn.pi%G.state.players.length]
     $: G.units = G.state.players.reduce((acc,cur)=>[...acc,...cur.units],[])
-    $: G.ritualcost = G.ritualtracks[G.state.players.length][G.rituals]
+    $: G.ritualcost = G.ritualtracks[G.state.players.length][G.state.rituals]
     $: G.actions = (G.state.stage == '') ? G.phases[G.state.phase]?.options()||[] : G.phases[G.state.phase].stages[G.state.stage]?.options()||[]
     $: H.choose = ((G.state.stage == '') ? G.phases[G.state.phase]?.moves?.choose||noop : G.phases[G.state.phase].stages[G.state.stage]?.moves?.choose)||noop
     
