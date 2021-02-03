@@ -504,45 +504,6 @@ let phases = {
                 },
             }
         },
-        // awaken : {
-        //     lim,
-        //     start : 'unit',
-        //     req : f => G.player.units.filter( u => u.tier == 2 && u.place == '' && u.awakenreq()).length,
-        //     stages : {
-        //         unit : {
-        //             next : 'place',
-        //             options : f => G.player.units.filter( u => u.tier==2 && u.awakenreq()),
-        //             moves : {
-        //                 choose : (np, c) => {
-        //                     if (np == 'unit' && G.player.units.filter( u => u.tier==2 && u.awakenreq()).includes(c)) {
-        //                         G.state.choices.awaken.unit = c
-        //                         endStage()
-        //                     }
-        //                 },
-        //                 done : f => {
-        //                     endPhase()
-        //                 }
-        //             },
-        //         },
-        //         place : {
-        //             options : f => G.state.choices.awaken.unit.awakenplaces(),
-        //             moves : {
-        //                 choose : (np, c) => {
-        //                     if (np == 'place' && G.state.choices.awaken.unit.awakenplaces().includes(c)) {
-        //                         G.state.choices.awaken.place = c
-        //                         G.state.choices.awaken.unit.place = c
-        //                         // G.player.power -= G.state.choices.awaken.unit.cost
-        //                         // G.state.choices.awaken.unit = null
-        //                         // G.state.choices.awaken.place = null
-        //                         G.state.choices.awaken.unit.cost()
-        //                         H.forceRerender()
-        //                         // endStage()
-        //                     }
-        //                 }
-        //             },
-        //         },
-        //     }
-        // },
         awaken : {
             lim,
             start : 'unit',
@@ -612,26 +573,6 @@ let phases = {
                 },
             }
         },
-        // book : {
-        //     start : 'book',
-        //     stages : {
-        //         book : {
-        //             options : f => G.player.faction.books,
-        //             moves : {
-        //                 choose : (np, c) => {
-        //                     if (np == 'book' && G.player.faction.books.includes(c) ) {
-        //                         G.state.choices.book.book = c
-        //                         G.player.books = [...G.player.books, c ]
-        //                         G.player.faction.bookreqs = G.player.faction.bookreqs.filter( b => !b['waiting...'])
-        //                         G.player.faction.books = G.player.faction.books.filter( b => b != G.state.choices.book.book)
-        //                         G.player.faction.bookinit[c]()
-        //                         returnStage()
-        //                     }
-        //                 }
-        //             },
-        //         },
-        //     }
-        // },
         book : {
             start : 'book',
             stages : {
@@ -652,6 +593,21 @@ let phases = {
                 },
             }
         },
+        win : {
+            start : 'end',
+            stages : {
+                'end' : {
+                    next : 'cease',
+                    init : f => {
+                        G.state.done = 1
+                        endStage()
+                    },
+                },
+                'cease' : {
+
+                }
+            }
+        }
     }
 }
 export default phases
