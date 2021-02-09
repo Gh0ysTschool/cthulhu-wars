@@ -19,7 +19,8 @@
 </script>
 
 <style lang="stylus">
-      
+      a:hover 
+        cursor pointer
 </style>
 {#if (page=='menu') }
     {#if (client == 'hotseat')}
@@ -31,10 +32,10 @@
     {/if}
     <span>games:</span>
     <ul>
-        <li on:click={newgame}>new game</li>
+        <li on:click={newgame}><a>new game</a></li>
         {#await promise then value}
             {#each Object.keys(value.val()) as key}
-            <li on:click={f=>join(key)}> {key}</li>
+            <li on:click={f=>join(key)}> <a>{key}</a> </li>
             {/each}
         {/await}
     </ul>
