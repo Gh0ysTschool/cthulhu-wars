@@ -88,7 +88,7 @@ let setPhase = p => {
     H.forceRerender()
 }
 let checkWin = f => {
-    return G.players.find( p => p.doom > 29 ) || G.state.rituals >= G.ritualtrack[G.state.players.length].length
+    return G.state.players.find( p => p.doom > 29 ) || G.state.rituals >= G.ritualtracks[G.state.players.length].length
 }
 let endPhase = p => {
     if (checkWin()) {setPhase('win');return;}
