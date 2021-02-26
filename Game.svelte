@@ -21,7 +21,7 @@
             G.state.rituals = 0
             phases.init(G,helpers)
             factions(G,phases,helpers)
-            G.state.players = Object.values(G.factions).map( f => ({ units:[],faction:f,doom:0,power:8,books:[],temp:{} }))
+            G.state.players = Object.values(G.factions).map( f => ({ signs:[],units:[],faction:f,doom:0,power:8,books:[],temp:{} }))
             G.state.players.map( p => {
                 p.units = Array(6).fill(null).map( u => helpers.unit('cult',p.faction.name,p.faction.start) )
                 p.units[2].gate=p.faction.start
